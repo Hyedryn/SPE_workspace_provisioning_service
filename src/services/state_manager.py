@@ -4,11 +4,19 @@ from __future__ import annotations
 import json
 import logging
 from datetime import datetime
+from enum import Enum
 from typing import Any, Dict, Optional
 
 from redis import Redis
 
 LOGGER = logging.getLogger(__name__)
+
+
+class WorkspaceLifecycleStatus(str, Enum):
+    """Well-known lifecycle states persisted for auditing and recovery."""
+
+    PROVISIONING_FAILED = "PROVISIONING_FAILED"
+    DESTROY_FAILED = "DESTROY_FAILED"
 
 
 class WorkspaceStateManager:
@@ -117,4 +125,4 @@ class WorkspaceStateManager:
             self._redis.delete(*keys)
 
 
-__all__ = ["WorkspaceStateManager"]
+__all__ = ["WorkspaceStateManager", "WorkspaceLifecycleStatus"]

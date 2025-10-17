@@ -11,6 +11,7 @@ from fastapi import FastAPI
 from .api.routes import router as api_router
 from .config import AppConfig, get_settings
 from .events.consumer import EventConsumer
+from .events.publisher import AuditEventPublisher, RabbitMQPublisher
 from .orchestration.main import WorkspaceOrchestrator
 from .services.state_manager import WorkspaceStateManager
 
@@ -38,7 +39,9 @@ def create_app() -> FastAPI:
 
     redis_client = redis.from_url(settings.redis.url, decode_responses=settings.redis.decode_responses)
     state_manager = WorkspaceStateManager(redis_client)
-    orchestrator = WorkspaceOrchestrator(settings, state_manager)
+    event_publisher = RabbitMQPublisher(settings)
+    audit_publisher = AuditEventPublisher(event_publisher)
+    orchestrator = WorkspaceOrchestrator(settings, state_manager, event_publisher, audit_publisher)
     event_consumer = EventConsumer(settings, orchestrator.handle_event)
 
     app = FastAPI(
@@ -53,6 +56,8 @@ def create_app() -> FastAPI:
     app.state.redis = redis_client
     app.state.state_manager = state_manager
     app.state.orchestrator = orchestrator
+    app.state.event_publisher = event_publisher
+    app.state.audit_publisher = audit_publisher
     app.state.event_consumer = event_consumer
 
     return app
