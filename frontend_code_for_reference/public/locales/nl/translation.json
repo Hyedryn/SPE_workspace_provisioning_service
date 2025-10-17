@@ -1,0 +1,886 @@
+{
+  "app": {
+    "title": "SPE-webportaal",
+    "language": "Taal",
+    "languageNames": {
+      "en": "Engels",
+      "fr": "Frans",
+      "nl": "Nederlands"
+    },
+    "signOut": "Meld u af",
+    "openNavigation": "Navigatie openen"
+  },
+  "common": {
+    "userFallback": "Gebruiker",
+    "separator": " - ",
+    "cancel": "Annuleren",
+    "close": "Dichtbij"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "account": "Mijn account",
+    "activityLog": "Activiteitenlogboek",
+    "permitQueue": "Wachtrij toestaan",
+    "myPermits": "Mijn vergunningen",
+    "dataIngress": "Gegevensinvoer",
+    "guestUser": "Gastgebruiker",
+    "unknownRole": "Onbekende rol"
+  },
+  "dashboard": {
+    "title": "Welkom terug, {{name}}",
+    "subtitle": "Hier vindt u een kort overzicht van uw huidige vergunningsactiviteiten.",
+    "loading": "Dashboardgegevens laden...",
+    "hdabQueue": {
+      "title": "HDAB-actiewachtrij",
+      "subtitle": "Vergunningen wachten op HDAB-beoordeling of follow-up.",
+      "empty": "Er zijn op dit moment geen vergunningen die HDAB-actie vereisen.",
+      "columns": {
+        "permitId": "Vergunning-ID",
+        "project": "Project",
+        "status": "Status",
+        "updated": "Bijgewerkt"
+      }
+    },
+    "researcherGrid": {
+      "title": "Mijn projecten",
+      "empty": "Er zijn geen actieve vergunningen aan u toegewezen. Wanneer u deelneemt aan een project, wordt dit hier weergegeven.",
+      "changesRequested": "{{count}} uitgaande update aangevraagd",
+      "changesRequested_plural": "{{count}} uitgaande updates aangevraagd",
+      "pendingReviews": "{{count}} in afwachting van beoordeling van uitgaand verkeer",
+      "pendingReviews_plural": "{{count}} in afwachting van uitgaande beoordelingen",
+      "lead": "Hoofdpersoon: {{name}}",
+      "teamCount": "{{count}} teamlid",
+      "teamCount_plural": "{{count}} teamleden"
+    },
+    "dataHolderIngress": {
+      "title": "Toewijzingen voor gegevensinvoer",
+      "empty": "U bent momenteel niet toegewezen aan actieve werkstromen voor gegevensinvoer. HDAB zal u op de hoogte stellen wanneer er nieuwe uploads nodig zijn.",
+      "contact": "HDAB-contactpersoon: {{contact}}",
+      "contactFallback": "Te bevestigen"
+    }
+  },
+  "actionLog": {
+    "title": "Recente activiteit",
+    "typeFallback": "Actie",
+    "systemActor": "Systeem",
+    "actorWithPermit": "{{actor}} - {{permit}}",
+    "loading": "Activiteitsgeschiedenis laden...",
+    "errorFallback": "Kan de activiteitengeschiedenis op dit moment niet laden.",
+    "states": {
+      "noPermitAccess": "Activiteit verschijnt zodra u toegang heeft tot een vergunning met gevoelige acties die u moet beoordelen.",
+      "noPermitSelected": "Selecteer een vergunning om de recente gevoelige activiteit ervan te bekijken.",
+      "empty": "Voor deze vergunning zijn nog geen gevoelige handelingen geregistreerd."
+    },
+    "helper": {
+      "hdab": "Houd toezicht op gevoelige acties met betrekking tot HDAB-vergunningen waarvoor toezicht vereist is.",
+      "member": "Houd werkruimte- en uitgaande updates bij die door uw team zijn ingediend.",
+      "dataHolder": "Houd binnenkomende updates bij voor de aan u toegewezen vergunningen."
+    },
+    "selector": {
+      "label": "Vergunning",
+      "placeholder": "Selecteer een vergunning",
+      "fallbackPermit": "Vergunning",
+      "singleLabel": "Vergunning: {{permit}}"
+    },
+    "actions": {
+      "refresh": "Vernieuwen",
+      "viewAll": "Bekijk het volledige activiteitenlogboek"
+    }
+  },
+  "auditLog": {
+    "title": "Activiteitenlogboek",
+    "subtitle": "Bekijk gevoelige acties die zijn vastgelegd voor de door u geselecteerde vergunning. Filters gebruiken standaard de recente geschiedenis, zodat het logboek snel en leesbaar blijft.",
+    "subtitleWithReference": "Bekijk gevoelige acties die zijn vastgelegd voor uw geselecteerde vergunning ({{reference}}). Filters gebruiken standaard de recente geschiedenis, zodat het logboek snel en leesbaar blijft.",
+    "typeFallback": "Actie",
+    "loading": "Auditlogboek laden...",
+    "filters": {
+      "permitLabel": "Vergunning",
+      "permitPlaceholder": "Selecteer een vergunning",
+      "noPermits": "Geen vergunningen beschikbaar",
+      "permitFallback": "Vergunning",
+      "noPermitSelected": "Geen vergunning geselecteerd",
+      "dateRange": "Datumbereik",
+      "actionTypes": "Actietypen",
+      "actionTypesAll": "Alle soorten",
+      "noActivity": "Er is nog geen activiteit beschikbaar",
+      "searchLabel": "Zoek naar omschrijving, persoon of vergunning",
+      "apply": "Pas filters toe",
+      "reset": "Terugzetten naar standaardwaarden",
+      "showingSince": "Inzendingen tonen sinds {{date}}",
+      "dateRangeOptions": {
+        "7d": "Laatste 7 dagen",
+        "30d": "Laatste 30 dagen",
+        "90d": "Laatste 90 dagen",
+        "180d": "Laatste 6 maanden",
+        "all": "Alle beschikbare activiteiten"
+      }
+    },
+    "states": {
+      "noAccess": "Gevoelige activiteiten verschijnen zodra u een vergunning krijgt toegewezen.",
+      "noPermit": "Selecteer een vergunning om het activiteitenlogboek ervan te bekijken.",
+      "empty": "Er is nog geen activiteit die overeenkomt met de geselecteerde filters."
+    },
+    "table": {
+      "timestamp": "Tijdstempel",
+      "action": "Actie",
+      "description": "Beschrijving",
+      "actor": "Acteur",
+      "permit": "Vergunning",
+      "systemActor": "Systeem",
+      "noReference": "—"
+    },
+    "actionTypes": {}
+  },
+  "statuses": {
+    "unknown": "Onbekend",
+    "AWAITING_INGRESS": "In afwachting van toegang",
+    "INGRESS_IN_PROGRESS": "Ingang in uitvoering",
+    "DATA_PREPARATION_PENDING": "Gegevensvoorbereiding in behandeling",
+    "DATA_PREPARATION_REVIEW_PENDING": "Voorbereidingsbeoordeling in behandeling",
+    "DATA_PREPARATION_REWORK": "Voorbereiding herwerken",
+    "WORKSPACE_SETUP_PENDING": "Installatie van werkruimte in behandeling",
+    "WORKSPACE_SETUP_REVIEW_PENDING": "Instellingsbeoordeling in behandeling",
+    "WORKSPACE_SETUP_REWORK": "Nabewerking instellen",
+    "ANALYSIS_ACTIVE": "Analyse actief",
+    "ANALYSIS_PAUSED": "Analyse onderbroken",
+    "ARCHIVED": "Gearchiveerd",
+    "EGRESS_REWORK": "Uitgangsherwerking",
+    "EGRESS_REVIEW_PENDING": "Egress-beoordeling in behandeling",
+    "EGRESS_APPROVED": "Uitgang goedgekeurd"
+  },
+  "roles": {
+    "project": {
+      "principalInvestigator": "Hoofdonderzoeker",
+      "projectMember": "Projectlid",
+      "anonymousReviewer": "Anonieme recensent",
+      "fallback": "{{role}}"
+    },
+    "hdab": {
+      "dataPreparator": "Gegevensvoorbereider",
+      "dataReviewer": "Gegevensrecensent",
+      "setupEngineer": "Installatie ingenieur",
+      "setupReviewer": "Installatie-recensent",
+      "egressReviewer": "Egress-recensent",
+      "fallback": "{{role}}"
+    },
+    "dataHolder": "Gegevenshouder",
+    "global": {
+      "SPE_SUPERADMIN": "Superbeheerder",
+      "HDAB_STAFF": "HDAB-personeel",
+      "HDAB_PERMIT_MANAGER": "HDAB-vergunningbeheerder",
+      "DATA_HOLDER_USER": "Gegevenshouder",
+      "HEALTH_DATA_USER": "Gebruiker van gezondheidsgegevens",
+      "fallback": "{{role}}"
+    }
+  },
+  "account": {
+    "unknownUser": "Onbekende gebruiker",
+    "noEmail": "Geen e-mailadres opgegeven",
+    "rolesHeading": "Rollen",
+    "noRoles": "Geen rollen toegewezen",
+    "organisationHeading": "Organisatie",
+    "organisationFallback": "Niet gespecificeerd"
+  },
+  "errors": {
+    "accessDenied": {
+      "title": "Toegang geweigerd",
+      "message": "U heeft geen toestemming om deze pagina te bekijken. Neem contact op met uw SPE-beheerder als u denkt dat dit een vergissing is.",
+      "action": "Terug naar dashboard"
+    },
+    "notFound": {
+      "title": "Pagina niet gevonden",
+      "message": "De pagina die u zocht bestaat niet of is verplaatst.",
+      "action": "Ga naar dashboard"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "SPE Portal-aanmelding",
+      "subtitle": "Meld u aan om door te gaan naar de beveiligde verwerkingsomgeving.",
+      "email": "E-mail",
+      "password": "Wachtwoord",
+      "submit": "Log in",
+      "submitting": "Aanmelden..."
+    }
+  },
+  "myPermits": {
+    "title": "Mijn vergunningen",
+    "subtitle": "Een geconsolideerd overzicht van uw toegewezen vergunningen met snelle toegang tot actieve werkruimten en uitgangen.",
+    "loading": "Uw vergunningen laden..."
+  },
+  "dataIngress": {
+    "title": "Taken voor gegevensinvoer",
+    "subtitle": "Controleer de vergunningen die u ondersteunt en upload de aangevraagde datasets wanneer het ingangsvenster wordt geopend.",
+    "loading": "Ingangstoewijzingen laden..."
+  },
+  "permits": {
+    "list": {
+      "title": "Wachtrij toestaan",
+      "subtitle": "Bekijk alle vergunningen die aan het HDAB-team zijn toegewezen.",
+      "loading": "Laadvergunningen...",
+      "columns": {
+        "reference": "Referentie",
+        "project": "Project",
+        "investigator": "Onderzoeker",
+        "status": "Status",
+        "updated": "Bijgewerkt"
+      }
+    },
+    "teamList": {
+      "title": "Teamleden",
+      "empty": "Geen team toegewezen."
+    },
+    "hdabTeam": {
+      "title": "HDAB-team",
+      "manage": "Beheer het HDAB-team",
+      "empty": "Er is nog geen HDAB-personeel toegewezen aan deze vergunning."
+    },
+    "outputs": {
+      "loading": "Uitgangen laden...",
+      "changesRequested": "HDAB heeft om updates gevraagd voor de inzending van {{count}}. Dien een herziene map in als u klaar bent.",
+      "changesRequested_plural": "HDAB heeft updates aangevraagd voor {{count}} inzendingen. Dien herziene mappen in wanneer u klaar bent.",
+      "pending": "{{count}} inzending wacht op HDAB-beoordeling.",
+      "pending_plural": "{{count}} inzendingen wachten op HDAB-beoordeling.",
+      "emptyApproved": "Er zijn nog geen resultaten goedgekeurd. Goedgekeurde mappen verschijnen hier zodra HDAB hun beslissing heeft afgerond.",
+      "emptyPending": "Er zijn nog geen resultaten ingediend. Wanneer u een map ter beoordeling verzendt, wordt deze hier weergegeven met de bijbehorende status.",
+      "reviewed": {
+        "approved": "Goedgekeurd",
+        "lastReviewed": "Laatst beoordeeld"
+      },
+      "submittedOn": "Ingediend op {{date}}",
+      "reviewedAt": "{{label}} {{date}}",
+      "download": {
+        "preparing": "Downloaden voorbereiden...",
+        "button": "Goedgekeurde bestanden downloaden",
+        "error": "Kan de downloadlink niet ophalen."
+      },
+      "summary": "{{approved}} goedgekeurd | {{pending}} wacht op beoordeling | {{changesRequested}} met gevraagde updates",
+      "reviewPanel": {
+        "title": "Uitgaande beoordelingswachtrij",
+        "description": "Beoordeel de ingediende inzendingen en documenteer uw beslissing. Onderzoekers worden automatisch op de hoogte gesteld wanneer u wijzigingen goedkeurt of aanvraagt.",
+        "loading": "Inzendingen laden…",
+        "readOnly": "U hebt alleen-lezen toegang tot de uitgaande wachtrij.",
+        "noPendingInfo": "Beslissingen kunnen worden vastgelegd zodra de inzendingen in afwachting zijn van beoordeling.",
+        "empty": "Er zijn nog geen resultaten ingediend. Wanneer het onderzoeksteam een ​​map ter beoordeling opstuurt, verschijnt deze hier met de status ervan.",
+        "reviewButton": "Inzending beoordelen",
+        "summary": "{{approved}} goedgekeurd • {{pending}} wacht op beoordeling • {{changesRequested}} met gevraagde updates",
+        "requestRework": "Verzoek om herbewerking",
+        "approve": "Uitgang goedkeuren",
+        "submitting": "Verzenden…",
+        "justification": "Rechtvaardiging: {{description}}",
+        "alerts": {
+          "changesRequested": "{{count}} inzending wacht op updates van onderzoekers voordat deze kan worden goedgekeurd.",
+          "changesRequested_plural": "{{count}} inzendingen wachten op updates van onderzoekers voordat ze kunnen worden goedgekeurd.",
+          "pending": "{{count}} inzending wacht op HDAB-beoordeling.",
+          "pending_plural": "{{count}} inzendingen wachten op HDAB-beoordeling."
+        },
+        "errors": {
+          "noPermission": "U heeft geen toestemming om besluiten vast te leggen.",
+          "noPending": "Er zijn geen in behandeling zijnde inzendingen beschikbaar om te beoordelen.",
+          "commentsRequired": "Opmerkingen zijn vereist bij het aanvragen van herbewerking.",
+          "submit": "Het is niet gelukt om het beoordelingsbesluit op te nemen. Probeer het opnieuw."
+        },
+        "success": {
+          "approved": "Uitgang goedgekeurd voor uitgaand verkeer.",
+          "rework": "Herbewerking van uitgaand verkeer aangevraagd."
+        },
+        "comments": {
+          "label": "Commentaar van de recensent",
+          "placeholder": "Documenteer de goedkeuringsredenen of vereiste wijzigingen.",
+          "helper": "Opmerkingen zijn optioneel voor goedkeuringen en vereist voor herbewerkingsverzoeken."
+        },
+        "dialog": {
+          "title": "Uitgaande inzending beoordelen",
+          "folderPath": "Mappad",
+          "justification": "Rechtvaardiging van de onderzoeker"
+        }
+      }
+    },
+    "dataHolderPanel": {
+      "title": "Projectcontacten",
+      "subtitle": "Neem contact op als u vragen heeft over de gegevensoverdracht.",
+      "principalInvestigator": "Hoofdonderzoeker",
+      "coordinator": "HDAB-coördinator"
+    },
+    "detail": {
+      "loading": "Vergunninggegevens laden...",
+      "notFound": "Er is geen vergunning gevonden voor de opgegeven identificatie.",
+      "summaryTitle": "Projectsamenvatting",
+      "dataHolder": {
+        "overviewTitle": "Overzicht vergunningen",
+        "overviewDescription": "Bekijk de belangrijkste details voor deze overdracht.",
+        "datasetLabel": "Gegevensset:",
+        "referenceLabel": "Vergunningreferentie:",
+        "updatedLabel": "Laatst bijgewerkt:"
+      }
+    },
+    "header": {
+      "steps": {
+        "dataIngress": "Gegevensinvoer",
+        "preparation": "Voorbereiding",
+        "preparationReview": "Voorbereiding beoordeling",
+        "setup": "Installatie",
+        "setupReview": "Installatiebeoordeling",
+        "analysis": "Analyse",
+        "complete": "Compleet"
+      },
+      "reference": "Vergunningreferentie: {{reference}}",
+      "principalInvestigator": "PI: {{name}}",
+      "createdOn": "Gemaakt op {{date}}",
+      "egressUpdates": "Uitgaande updates aangevraagd: {{count}}",
+      "pendingReviews": "Uitgaande beoordelingen in behandeling: {{count}}",
+      "approvedOutputs": "Goedgekeurde uitvoer: {{count}}"
+    }
+  },
+  "teamManagement": {
+    "title": "Teammanagement",
+    "subtitle": "Voeg medewerkers toe aan deze vergunning of verwijder ze. Uitnodigingen worden doorgestuurd via de SPE-inrichtingsworkflow.",
+    "loading": "Laadvergunning team...",
+    "loadingMessage": "Laadvergunning team. Even geduld a.u.b....",
+    "inviteButton": "Nodig een bijdrager uit",
+    "inviteSuccess": "Uitnodiging verzonden naar {{email}}.",
+    "removeSuccess": "Medewerker verwijderd uit het team.",
+    "removeAriaLabel": "Bijdrager verwijderen",
+    "dialog": {
+      "title": "Nodig een bijdrager uit",
+      "emailLabel": "E-mailadres",
+      "submit": "Uitnodiging verzenden"
+    }
+  },
+  "hdabTeamDialog": {
+    "title": "Beheer het HDAB-team",
+    "description": "Wijs HDAB-personeel toe aan deze vergunning met de juiste functionele rol. Medewerkers krijgen alleen toegang tot de vergunning als ze expliciet zijn toegewezen.",
+    "errors": {
+      "search": "Kan HDAB-personeel niet zoeken. Probeer het opnieuw."
+    },
+    "success": {
+      "assign": "{{name}} toegewezen als {{role}}.",
+      "remove": "HDAB-teamlid verwijderd uit de vergunning."
+    },
+    "search": {
+      "label": "Zoek naar HDAB-personeel",
+      "placeholder": "Typ minimaal twee tekens...",
+      "helper": "Zoek op naam of e-mailadres."
+    },
+    "roleLabel": "Vergunning rol",
+    "assignButton": "Toewijzen aan vergunning",
+    "currentHeading": "Huidige opdrachten",
+    "empty": "Er is momenteel geen HDAB-personeel toegewezen aan deze vergunning.",
+    "removeAriaLabel": "Teamlid verwijderen",
+    "noEmail": "Geen e-mailadres opgegeven"
+  },
+  "dataHolderManagement": {
+    "title": "Beheer van gegevenshouders",
+    "subtitle": "Uitnodigen of verwijderen van gegevenshouders die verantwoordelijk zijn voor het uploaden van bronuittreksels voor deze vergunning.",
+    "loading": "Gegevenshouders laden...",
+    "loadingMessage": "Informatie over het laden van vergunningen. Even geduld a.u.b....",
+    "assignButton": "Gegevenshouder toewijzen",
+    "assignSuccess": "{{name}} toegewezen als gegevenshouder.",
+    "removeSuccess": "Gegevenshouder verwijderd.",
+    "empty": "Er zijn geen gegevenshouders toegewezen.",
+    "removeAriaLabel": "Gegevenshouder verwijderen",
+    "dialog": {
+      "title": "Gegevenshouder toewijzen",
+      "searchLabel": "Gegevenshouders zoeken",
+      "searchPlaceholder": "Typ minimaal twee tekens...",
+      "searchHelper": "Alleen gebruikers met de toegangsrol gegevenshouder verschijnen in deze lijst.",
+      "noInput": "Voer minimaal twee tekens in om te zoeken.",
+      "noResults": "Geen datahouders gevonden.",
+      "searchError": "Kan momenteel niet zoeken naar gegevenshouders.",
+      "submit": "Toewijzen",
+      "assigning": "Wijs <strong>{{name}}</strong> ({{email}}) toe van {{organization}}.",
+      "unknownOrganization": "hun organisatie"
+    }
+  },
+  "submitOutput": {
+    "title": "Uitvoer indienen ter beoordeling",
+    "subtitle": "Geef het pad naar de beveiligde werkruimtemap op met de bestanden die klaar zijn voor beoordeling van het uitgaande verkeer, samen met een motivering waarin de inhoud en het doel van de export worden beschreven. U kunt meerdere mappen tegelijkertijd indienen terwijl HDAB-medewerkers uw resultaten beoordelen.",
+    "loading": "Inzendingsformulier voorbereiden...",
+    "notFound": "Vergunning niet gevonden of u heeft geen toegang om uitvoer in te dienen.",
+    "form": {
+      "pathLabel": "Pad naar werkruimtemap",
+      "pathPlaceholder": "/analyse/outputs/mijn-rapport",
+      "justificationLabel": "Uitgangsgerechtigheid",
+      "justificationHelper": "Beschrijf de meegeleverde bestanden en waarom ze de beveiligde omgeving moeten verlaten.",
+      "submit": "Ter beoordeling indienen",
+      "submitting": "Verzenden...",
+      "missingJustification": "Geef een rechtvaardiging voor het uitgaande verzoek.",
+      "success": "Uitvoer ter beoordeling ingediend. Tracking-ID: {{id}}",
+      "error": "Kan de uitvoer niet verzenden. Zorg ervoor dat het pad correct is."
+    }
+  },
+  "permitActions": {
+    "headings": {
+      "hdab": {
+        "title": "HDAB-beoordelingsacties",
+        "description": "Geef een besluit om de vergunningsbeoordeling voort te zetten. Alle beslissingen worden gecontroleerd."
+      },
+      "member": {
+        "title": "Onderzoekersacties",
+        "description": "Start uw beveiligde werkruimte of dien deliverables in ter beoordeling van het uitgaande verkeer."
+      },
+      "dataHolder": {
+        "title": "Acties voor gegevensinvoer",
+        "description": "Upload de gevraagde dataset-extracten en bevestig zodra de overdracht is voltooid."
+      }
+    },
+    "comments": {
+      "requiredLabel": "Commentaar van recensent (vereist)",
+      "optionalLabel": "Opmerking van de recensent (optioneel)",
+      "placeholder": "Context toevoegen voor de aanvrager..."
+    },
+    "fallbackInfoMessages": {
+      "hdab": "Er zijn geen HDAB-acties beschikbaar totdat het projectteam de volgende stap heeft voltooid.",
+      "member": "Er zijn in dit stadium geen directe acties vereist voor uw project.",
+      "dataHolder": "Er zijn momenteel geen acties vereist. U ontvangt een melding wanneer uploads nodig zijn."
+    },
+    "defaultSuccessMessages": {
+      "decision": "Decision recorded.",
+      "submitSetup": "Werkruimte ingediend voor HDAB-beoordeling.",
+      "initiateIngress": "Gegevensinvoer gestart.",
+      "confirmIngress": "Uploaden bevestigd. HDAB gaat door met de verwerking."
+    },
+    "defaultErrorMessages": {
+      "decision": "Failed to record decision.",
+      "submitSetup": "Kan de werkruimte niet ter beoordeling indienen.",
+      "initiateIngress": "Kan gegevensinvoer niet initiëren.",
+      "confirmIngress": "Kan het uploaden niet bevestigen."
+    },
+    "infoMessages": {
+      "hdab": {
+        "AWAITING_INGRESS": "Wijs een gegevenshouder toe en start de veilige overdracht om met de voorbereiding te beginnen.",
+        "INGRESS_IN_PROGRESS": "Controleer de upload van de gegevenshouder. Markeer de toegang als voltooid zodra de bestanden zijn gevalideerd.",
+        "DATA_PREPARATION_PENDING": "Voltooi de voorbereidingswerkruimte en verzend deze wanneer de gegevens gereed zijn voor beoordeling.",
+        "DATA_PREPARATION_REWORK": "Bezoek de voorbereidingswerkruimte opnieuw en dien uw aanvraag opnieuw in wanneer de problemen zijn opgelost.",
+        "DATA_PREPARATION_REVIEW_PENDING": "Bekijk het voorbereidingsmateriaal en noteer uw beslissing.",
+        "WORKSPACE_SETUP_PENDING": "Coördineer de configuratie van de werkruimte met het projectteam en dien deze in wanneer deze gereed is voor beoordeling.",
+        "WORKSPACE_SETUP_REWORK": "Verhelp de gevraagde configuratiewijzigingen en dien deze opnieuw ter beoordeling in.",
+        "WORKSPACE_SETUP_REVIEW_PENDING": "Bekijk de geconfigureerde werkruimte en leg uw beslissing vast.",
+        "ANALYSIS_ACTIVE": "Beoordeel in behandeling zijnde uitgaande inzendingen terwijl het onderzoeksteam doorgaat met hun analyse.",
+        "ANALYSIS_PAUSED": "De projectactiviteit is onderbroken. Er is geen HDAB-actie vereist."
+      },
+      "member": {
+        "AWAITING_INGRESS": "HDAB neemt contact op met de door u genomineerde gegevenshouder om de veilige upload te starten.",
+        "INGRESS_IN_PROGRESS": "De gegevenshouder draagt ​​bestanden over. HDAB zal u op de hoogte stellen wanneer de voorbereiding begint.",
+        "DATA_PREPARATION_PENDING": "HDAB-medewerkers bereiden uw datasets voor. U ontvangt een melding wanneer de beoordeling begint.",
+        "DATA_PREPARATION_REVIEW_PENDING": "HDAB-reviewers controleren de voorbereide gegevens voordat het instellen van de omgeving kan beginnen.",
+        "DATA_PREPARATION_REWORK": "HDAB-personeel verzocht om updates van de voorbereidingsdataset.",
+        "WORKSPACE_SETUP_PENDING": "Configureer de werkruimte en dien deze in zodra u klaar bent voor HDAB-beoordeling.",
+        "WORKSPACE_SETUP_REWORK": "Voer de gevraagde wijzigingen door en dien uw omgeving vervolgens opnieuw ter beoordeling in.",
+        "WORKSPACE_SETUP_REVIEW_PENDING": "HDAB-reviewers evalueren uw werkplekopstelling.",
+        "ANALYSIS_ACTIVE": "Start de werkruimte om door te gaan met de analyse. Controleer hieronder de uitgaande inzendingen en stuur extra mappen wanneer u daar klaar voor bent.",
+        "ANALYSIS_PAUSED": "Hervat het project om verder te werken in de werkruimte."
+      },
+      "dataHolder": {
+        "AWAITING_INGRESS": "Wacht op de bevestiging van HDAB om te beginnen met het veilig uploaden van de gevraagde uittreksels.",
+        "INGRESS_IN_PROGRESS": "Upload de voorbereide gegevens via het beveiligde kanaal en bevestig vervolgens zodra de overdracht is voltooid.",
+        "DATA_PREPARATION_PENDING": "HDAB verwerkt uw geüploade bestanden. Er zijn op dit moment geen verdere actie vereist."
+      }
+    },
+    "hdabActionsByStatus": {
+      "AWAITING_INGRESS": [
+        {
+          "type": "custom",
+          "actionName": "INITIATE_INGRESS",
+          "label": "Start gegevensinvoer",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Gegevensinvoer gestart.",
+          "requires": "canManageHdabTeam"
+        },
+        {
+          "type": "navigate",
+          "label": "Beheer gegevenshouders",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/data-holders",
+          "requires": "canManageHdabTeam"
+        }
+      ],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "navigate",
+          "label": "Beheer gegevenshouders",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/data-holders",
+          "requires": "canManageHdabTeam"
+        }
+      ],
+      "DATA_PREPARATION_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Toegang tot voorbereidingswerkruimte",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/preprocess",
+          "requires": "canManagePreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Signaalvoorbereiding voltooid",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "SUBMIT_FOR_REVIEW",
+          "successMessage": "Voorbereiding ingediend voor HDAB-beoordeling.",
+          "requires": "canManagePreparation"
+        }
+      ],
+      "DATA_PREPARATION_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Toegang tot voorbereidingswerkruimte",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/preprocess",
+          "requires": "canManagePreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Voorbereiding voor beoordeling opnieuw indienen",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "SUBMIT_FOR_REVIEW",
+          "successMessage": "Voorbereiding opnieuw ingediend voor HDAB-beoordeling.",
+          "requires": "canManagePreparation"
+        }
+      ],
+      "DATA_PREPARATION_REVIEW_PENDING": [
+        {
+          "type": "decision",
+          "label": "Voorbereiding goedkeuren",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "APPROVED",
+          "requiresComments": true,
+          "successMessage": "Voorbereiding goedgekeurd. Vergunning wacht nu op het inrichten van de werkruimte.",
+          "requires": "canReviewPreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Verzoek om voorbereidingsherwerking",
+          "variant": "outlined",
+          "color": "warning",
+          "stage": "PREPARATION",
+          "decision": "REWORK_REQUESTED",
+          "requiresComments": true,
+          "successMessage": "Voorbereiding nabewerking gevraagd.",
+          "requires": "canReviewPreparation"
+        }
+      ],
+      "WORKSPACE_SETUP_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Open de Analyse-werkruimte",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canManageSetup"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Verzend de configuratie ter beoordeling",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Installatie van de werkruimte ingediend voor HDAB-beoordeling.",
+          "requires": "canManageSetup"
+        }
+      ],
+      "WORKSPACE_SETUP_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Open de Analysis-werkruimte opnieuw",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canManageSetup"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Verzend de configuratie opnieuw ter beoordeling",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Instelling van de werkruimte opnieuw ingediend voor HDAB-beoordeling.",
+          "requires": "canManageSetup"
+        }
+      ],
+      "WORKSPACE_SETUP_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Analysewerkruimte bekijken",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canReviewSetup"
+        },
+        {
+          "type": "decision",
+          "label": "Installatie goedkeuren",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "SETUP",
+          "decision": "APPROVED",
+          "requiresComments": true,
+          "successMessage": "Inrichting van de werkruimte goedgekeurd. De analyse kan beginnen.",
+          "requires": "canReviewSetup"
+        },
+        {
+          "type": "decision",
+          "label": "Verzoek om herbewerking van de installatie",
+          "variant": "outlined",
+          "color": "warning",
+          "stage": "SETUP",
+          "decision": "REWORK_REQUESTED",
+          "requiresComments": true,
+          "successMessage": "Herbewerking van de installatie aangevraagd.",
+          "requires": "canReviewSetup"
+        }
+      ],
+      "ANALYSIS_ACTIVE": [
+        {
+          "type": "navigate",
+          "label": "Controleer uitgaande inzendingen",
+          "variant": "contained",
+          "color": "primary",
+          "pathTemplate": "/permits/:permitId#egress-review",
+          "requires": "canReviewOutputs",
+          "displayCondition": "hasPendingOutputs"
+        },
+        {
+          "type": "navigate",
+          "label": "Bekijk goedgekeurde uitvoer",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId#egress-review",
+          "requires": "canReviewOutputs",
+          "displayCondition": "hasApprovedOutputs"
+        }
+      ]
+    },
+    "memberActionsByStatus": {
+      "AWAITING_INGRESS": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Open de Installatiewerkruimte",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Verzend de configuratie ter beoordeling",
+          "variant": "outlined",
+          "successMessage": "Installatie van de werkruimte ingediend voor HDAB-beoordeling.",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Open de installatiewerkruimte opnieuw",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Verzend de configuratie opnieuw ter beoordeling",
+          "variant": "outlined",
+          "successMessage": "Instelling van de werkruimte opnieuw ingediend voor HDAB-beoordeling.",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "ANALYSIS_ACTIVE": [
+        {
+          "type": "navigate",
+          "label": "Open de Analyse-werkruimte",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Uitvoer indienen ter beoordeling",
+          "alternateLabel": "Dien nog een uitvoer in",
+          "alternateLabelCondition": "hasPendingOutputs",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs",
+          "displayCondition": "noChangesRequested"
+        },
+        {
+          "type": "navigate",
+          "label": "Uitvoer opnieuw ter beoordeling indienen",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs",
+          "displayCondition": "hasChangesRequested"
+        },
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "ANALYSIS_PAUSED": [
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ]
+    },
+    "dataHolderActionsByStatus": {
+      "AWAITING_INGRESS": [],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "custom",
+          "actionName": "CONFIRM_UPLOAD",
+          "label": "Bevestig dat het uploaden voltooid is",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Upload bevestigd voor HDAB-verwerking.",
+          "requires": "canConfirmIngress"
+        }
+      ]
+    },
+    "fallbackActions": {
+      "member": [
+        {
+          "type": "navigate",
+          "label": "Open de Analyse-werkruimte",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Uitvoer indienen ter beoordeling",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs"
+        },
+        {
+          "type": "navigate",
+          "label": "Beheer team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "hdab": [],
+      "dataHolder": []
+    }
+  },
+  "workspace": {
+    "labels": {
+      "analysis": "Analyse-werkruimte",
+      "review": "Bekijk de werkruimte",
+      "preprocess": "Werkruimte voorbewerken",
+      "default": "Werkruimte"
+    },
+    "loadingAccess": "Toegang tot werkruimte laden...",
+    "notFound": "Vergunning niet gevonden of u heeft geen toegang tot de werkruimte.",
+    "description": "Beheer uw beveiligde werkruimtesessie. Acties worden beperkt door uw rol:",
+    "roleDescriptions": {
+      "hdab": "HDAB-reviewers kunnen verbinding maken met reviewsessies.",
+      "member": "Onderzoekers kunnen sessies starten en resultaten indienen."
+    },
+    "hdabBanner": "HDAB-reviewers hebben toegang tot werkruimten in een alleen-lezen-modus voor nalevingscontroles. Alle interacties worden gecontroleerd.",
+    "utilities": {
+      "title": "Richtlijnen voor de werkruimte",
+      "description": "Alle bestand- en gegevensbeheer moet plaatsvinden binnen de beveiligde Guacamole-sessie die voor deze werkruimte is voorzien."
+    },
+    "guacamole": {
+      "pendingConnection": "Werkruimte is nog niet verbonden. Start de omgeving om verbindingsgegevens te verkrijgen.",
+      "title": "Guacamole-verbinding",
+      "protocol": "Protocol: {{value}}",
+      "host": "Host: {{value}}",
+      "port": "Poort: {{value}}",
+      "tunnelId": "Tunnel-ID: {{value}}"
+    },
+    "notifications": {
+      "startInitiated": "Start van de werkruimte gestart.",
+      "stopInitiated": "Het afsluiten van de werkruimte is gestart."
+    },
+    "errors": {
+      "status": "Kan de status van de werkruimte niet laden.",
+      "connectionPending": "Werkruimte begint; verbinding nog niet klaar.",
+      "start": "Kan de werkruimte niet starten.",
+      "stop": "Kan de werkruimte niet stoppen."
+    },
+    "header": {
+      "title": "Veilige werkruimte",
+      "lastUpdated": "Status laatst bijgewerkt {{time}}",
+      "start": "Werkruimte starten",
+      "stop": "Werkruimte stoppen"
+    }
+  }
+}

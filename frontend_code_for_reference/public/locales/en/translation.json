@@ -1,0 +1,887 @@
+{
+  "app": {
+    "title": "SPE Web Portal",
+    "language": "Language",
+    "languageNames": {
+      "en": "English",
+      "fr": "French",
+      "nl": "Dutch"
+    },
+    "signOut": "Sign out",
+    "openNavigation": "Open navigation"
+  },
+  "common": {
+    "userFallback": "User",
+    "separator": " - ",
+    "cancel": "Cancel",
+    "close": "Close"
+  },
+  "navigation": {
+    "dashboard": "Dashboard",
+    "account": "My Account",
+    "activityLog": "Activity Log",
+    "permitQueue": "Permit Queue",
+    "myPermits": "My Permits",
+    "dataIngress": "Data Ingress",
+    "guestUser": "Guest User",
+    "unknownRole": "Unknown role"
+  },
+  "dashboard": {
+    "title": "Welcome back, {{name}}",
+    "subtitle": "Here is a quick overview of your current permit activity.",
+    "loading": "Loading dashboard data...",
+    "hdabQueue": {
+      "title": "HDAB Action Queue",
+      "subtitle": "Permits awaiting HDAB review or follow-up.",
+      "empty": "No permits require HDAB action at this time.",
+      "columns": {
+        "permitId": "Permit ID",
+        "project": "Project",
+        "status": "Status",
+        "updated": "Updated"
+      }
+    },
+    "researcherGrid": {
+      "title": "My Projects",
+      "empty": "You are not assigned to any active permits. When you join a project, it will show up here.",
+      "changesRequested": "{{count}} egress update requested",
+      "changesRequested_plural": "{{count}} egress updates requested",
+      "pendingReviews": "{{count}} pending egress review",
+      "pendingReviews_plural": "{{count}} pending egress reviews",
+      "lead": "Lead: {{name}}",
+      "teamCount": "{{count}} team member",
+      "teamCount_plural": "{{count}} team members"
+    },
+    "dataHolderIngress": {
+      "title": "Data Ingress Assignments",
+      "empty": "You are not currently assigned to any active data ingress workflows. HDAB will notify you when new uploads are required.",
+      "contact": "HDAB contact: {{contact}}",
+      "contactFallback": "To be confirmed"
+    }
+  },
+  "actionLog": {
+    "title": "Recent activity",
+    "typeFallback": "Action",
+    "systemActor": "System",
+    "actorWithPermit": "{{actor}} - {{permit}}",
+    "loading": "Loading activity history...",
+    "errorFallback": "Unable to load activity history at this time.",
+    "states": {
+      "noPermitAccess": "Activity will appear once you have access to a permit with sensitive actions to review.",
+      "noPermitSelected": "Select a permit to review its recent sensitive activity.",
+      "empty": "No sensitive actions have been recorded for this permit yet."
+    },
+    "helper": {
+      "hdab": "Monitor sensitive actions across HDAB permits requiring oversight.",
+      "member": "Track workspace and egress updates submitted by your team.",
+      "dataHolder": "Keep track of ingress updates for your assigned permits."
+    },
+    "selector": {
+      "label": "Permit",
+      "placeholder": "Select a permit",
+      "fallbackPermit": "Permit",
+      "singleLabel": "Permit: {{permit}}"
+    },
+    "actions": {
+      "refresh": "Refresh",
+      "viewAll": "View full activity log"
+    }
+  },
+  "auditLog": {
+    "title": "Activity log",
+    "subtitle": "Review sensitive actions recorded for your selected permit. Filters default to recent history so the log stays fast and readable.",
+    "subtitleWithReference": "Review sensitive actions recorded for your selected permit ({{reference}}). Filters default to recent history so the log stays fast and readable.",
+    "typeFallback": "Action",
+    "loading": "Loading audit log...",
+    "filters": {
+      "permitLabel": "Permit",
+      "permitPlaceholder": "Select a permit",
+      "noPermits": "No permits available",
+      "permitFallback": "Permit",
+      "noPermitSelected": "No permit selected",
+      "dateRange": "Date range",
+      "actionTypes": "Action types",
+      "actionTypesAll": "All types",
+      "noActivity": "No activity available yet",
+      "searchLabel": "Search description, person, or permit",
+      "apply": "Apply filters",
+      "reset": "Reset to defaults",
+      "showingSince": "Showing entries since {{date}}",
+      "dateRangeOptions": {
+        "7d": "Last 7 days",
+        "30d": "Last 30 days",
+        "90d": "Last 90 days",
+        "180d": "Last 6 months",
+        "all": "All available activity"
+      }
+    },
+    "states": {
+      "noAccess": "Sensitive activity will appear once you are assigned to a permit.",
+      "noPermit": "Select a permit to view its activity log.",
+      "empty": "No activity matches the selected filters yet."
+    },
+    "table": {
+      "timestamp": "Timestamp",
+      "action": "Action",
+      "description": "Description",
+      "actor": "Actor",
+      "permit": "Permit",
+      "systemActor": "System",
+      "noReference": "—"
+    },
+    "actionTypes": {}
+  },
+  "statuses": {
+    "unknown": "Unknown",
+    "AWAITING_INGRESS": "Awaiting ingress",
+    "INGRESS_IN_PROGRESS": "Ingress in progress",
+    "DATA_PREPARATION_PENDING": "Data preparation pending",
+    "DATA_PREPARATION_REVIEW_PENDING": "Preparation review pending",
+    "DATA_PREPARATION_REWORK": "Preparation rework",
+    "WORKSPACE_SETUP_PENDING": "Workspace setup pending",
+    "WORKSPACE_SETUP_REVIEW_PENDING": "Setup review pending",
+    "WORKSPACE_SETUP_REWORK": "Setup rework",
+    "ANALYSIS_ACTIVE": "Analysis active",
+    "ANALYSIS_PAUSED": "Analysis paused",
+    "ARCHIVED": "Archived",
+    "EGRESS_REWORK": "Egress rework",
+    "EGRESS_REVIEW_PENDING": "Egress review pending",
+    "EGRESS_APPROVED": "Egress approved"
+  },
+  "roles": {
+    "project": {
+      "principalInvestigator": "Principal Investigator",
+      "projectMember": "Project Member",
+      "anonymousReviewer": "Anonymous Reviewer",
+      "fallback": "{{role}}"
+    },
+    "hdab": {
+      "dataPreparator": "Data Preparator",
+      "dataReviewer": "Data Reviewer",
+      "setupEngineer": "Setup Engineer",
+      "setupReviewer": "Setup Reviewer",
+      "egressReviewer": "Egress Reviewer",
+      "fallback": "{{role}}"
+    },
+    "dataHolder": "Data Holder",
+    "global": {
+      "SPE_SUPERADMIN": "Super Administrator",
+      "HDAB_STAFF": "HDAB Staff",
+      "HDAB_PERMIT_MANAGER": "HDAB Permit Manager",
+      "DATA_HOLDER_USER": "Data Holder",
+      "HEALTH_DATA_USER": "Health Data User",
+      "fallback": "{{role}}"
+    }
+  },
+  "account": {
+    "unknownUser": "Unknown User",
+    "noEmail": "No email provided",
+    "rolesHeading": "Roles",
+    "noRoles": "No roles assigned",
+    "organisationHeading": "Organisation",
+    "organisationFallback": "Not specified"
+  },
+  "errors": {
+    "accessDenied": {
+      "title": "Access Denied",
+      "message": "You do not have permission to view this page. Please contact your SPE administrator if you think this is a mistake.",
+      "action": "Back to dashboard"
+    },
+    "notFound": {
+      "title": "Page Not Found",
+      "message": "The page you were looking for does not exist or has been moved.",
+      "action": "Go to dashboard"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "SPE Portal Login",
+      "subtitle": "Sign in to continue to the Secure Processing Environment.",
+      "email": "Email",
+      "password": "Password",
+      "submit": "Sign in",
+      "submitting": "Signing in..."
+    }
+  },
+  "myPermits": {
+    "title": "My Permits",
+    "subtitle": "A consolidated view of your assigned permits with quick access to active workspaces and outputs.",
+    "loading": "Loading your permits..."
+  },
+  "dataIngress": {
+    "title": "Data Ingress Tasks",
+    "subtitle": "Review the permits you are supporting and upload requested datasets when the ingress window opens.",
+    "loading": "Loading ingress assignments..."
+  },
+  "permits": {
+    "list": {
+      "title": "Permit Queue",
+      "subtitle": "Review all permits assigned to the HDAB team.",
+      "loading": "Loading permits...",
+      "columns": {
+        "reference": "Reference",
+        "project": "Project",
+        "investigator": "Investigator",
+        "status": "Status",
+        "updated": "Updated"
+      }
+    },
+    "teamList": {
+      "title": "Team Members",
+      "empty": "No team assigned."
+    },
+    "hdabTeam": {
+      "title": "HDAB Team",
+      "manage": "Manage HDAB Team",
+      "empty": "No HDAB staff have been assigned to this permit yet."
+    },
+    "outputs": {
+      "loading": "Loading outputs...",
+      "changesRequested": "HDAB requested updates on {{count}} submission. Submit a revised folder when ready.",
+      "changesRequested_plural": "HDAB requested updates on {{count}} submissions. Submit revised folders when ready.",
+      "pending": "{{count}} submission is awaiting HDAB review.",
+      "pending_plural": "{{count}} submissions are awaiting HDAB review.",
+      "emptyApproved": "No outputs have been approved yet. Approved folders will appear here once HDAB finalises their decision.",
+      "emptyPending": "No outputs have been submitted yet. When you send a folder for review, it will appear here with its status.",
+      "reviewed": {
+        "approved": "Approved",
+        "lastReviewed": "Last reviewed"
+      },
+      "submittedOn": "Submitted {{date}}",
+      "reviewedAt": "{{label}} {{date}}",
+      "download": {
+        "preparing": "Preparing download...",
+        "button": "Download approved files",
+        "error": "Unable to fetch download link."
+      },
+      "summary": "{{approved}} approved | {{pending}} awaiting review | {{changesRequested}} with requested updates",
+      "reviewPanel": {
+        "title": "Egress Review Queue",
+        "description": "Review pending submissions and document your decision. Researchers are notified automatically when you approve or request changes.",
+        "loading": "Loading submissions…",
+        "readOnly": "You have read-only access to the egress queue.",
+        "noPendingInfo": "Decisions can be recorded once submissions are awaiting review.",
+        "empty": "No outputs have been submitted yet. When the research team sends a folder for review it will appear here with its status.",
+        "reviewButton": "Review Submission",
+        "summary": "{{approved}} approved • {{pending}} awaiting review • {{changesRequested}} with requested updates",
+        "requestRework": "Request Rework",
+        "approve": "Approve Egress",
+        "submitting": "Submitting…",
+        "justification": "Justification: {{description}}",
+        "alerts": {
+          "changesRequested": "{{count}} submission is awaiting researcher updates before it can be approved.",
+          "changesRequested_plural": "{{count}} submissions are awaiting researcher updates before they can be approved.",
+          "pending": "{{count}} submission is awaiting HDAB review.",
+          "pending_plural": "{{count}} submissions are awaiting HDAB review."
+        },
+        "errors": {
+          "noPermission": "You do not have permission to record decisions.",
+          "noPending": "There are no pending submissions available to review.",
+          "commentsRequired": "Comments are required when requesting rework.",
+          "submit": "Failed to record review decision. Please try again."
+        },
+        "success": {
+          "approved": "Output approved for egress.",
+          "rework": "Egress rework requested."
+        },
+        "comments": {
+          "label": "Reviewer comments",
+          "placeholder": "Document the approval rationale or required changes.",
+          "helper": "Comments are optional for approvals and required for rework requests."
+        },
+        "dialog": {
+          "title": "Review Egress Submission",
+          "folderPath": "Folder path",
+          "justification": "Researcher justification"
+        }
+      }
+    },
+    "dataHolderPanel": {
+      "title": "Project Contacts",
+      "subtitle": "Reach out if you have questions about the data transfer.",
+      "principalInvestigator": "Principal Investigator",
+      "coordinator": "HDAB Coordinator"
+    },
+    "detail": {
+      "loading": "Loading permit details...",
+      "notFound": "No permit found for the provided identifier.",
+      "summaryTitle": "Project Summary",
+      "dataHolder": {
+        "overviewTitle": "Permit Overview",
+        "overviewDescription": "Review the key details for this transfer.",
+        "datasetLabel": "Dataset:",
+        "referenceLabel": "Permit reference:",
+        "updatedLabel": "Last updated:"
+      }
+    },
+    "header": {
+      "steps": {
+        "dataIngress": "Data Ingress",
+        "preparation": "Preparation",
+        "preparationReview": "Preparation Review",
+        "setup": "Setup",
+        "setupReview": "Setup Review",
+        "analysis": "Analysis",
+        "complete": "Complete"
+      },
+      "reference": "Permit reference: {{reference}}",
+      "principalInvestigator": "PI: {{name}}",
+      "createdOn": "Created {{date}}",
+      "egressUpdates": "Egress updates requested: {{count}}",
+      "pendingReviews": "Pending egress reviews: {{count}}",
+      "approvedOutputs": "Approved outputs: {{count}}"
+    }
+  },
+  "teamManagement": {
+    "title": "Team Management",
+    "subtitle": "Add or remove collaborators on this permit. Invitations are routed through the SPE provisioning workflow.",
+    "loading": "Loading permit team...",
+    "loadingMessage": "Loading permit team. Please wait…",
+    "inviteButton": "Invite collaborator",
+    "inviteSuccess": "Invitation sent to {{email}}.",
+    "removeSuccess": "Collaborator removed from the team.",
+    "removeAriaLabel": "Remove collaborator",
+    "dialog": {
+      "title": "Invite Collaborator",
+      "emailLabel": "Email address",
+      "submit": "Send invite"
+    }
+  },
+  "hdabTeamDialog": {
+    "title": "Manage HDAB Team",
+    "description": "Assign HDAB staff to this permit with the appropriate functional role. Staff members only gain access to the permit when explicitly assigned.",
+    "errors": {
+      "search": "Unable to search HDAB staff. Please try again."
+    },
+    "success": {
+      "assign": "{{name}} assigned as {{role}}.",
+      "remove": "HDAB team member removed from the permit."
+    },
+    "search": {
+      "label": "Search HDAB staff",
+      "placeholder": "Type at least two characters...",
+      "helper": "Search by name or email."
+    },
+    "roleLabel": "Permit role",
+    "assignButton": "Assign to permit",
+    "currentHeading": "Current assignments",
+    "empty": "No HDAB staff are currently assigned to this permit.",
+    "removeAriaLabel": "Remove team member",
+    "noEmail": "No email provided"
+  },
+  "dataHolderManagement": {
+    "title": "Data Holder Management",
+    "subtitle": "Invite or remove data holders responsible for uploading source extracts for this permit.",
+    "loading": "Loading data holders...",
+    "loadingMessage": "Loading permit information. Please wait…",
+    "assignButton": "Assign data holder",
+    "assignSuccess": "{{name}} assigned as data holder.",
+    "removeSuccess": "Data holder removed.",
+    "empty": "No data holders assigned.",
+    "removeAriaLabel": "Remove data holder",
+    "dialog": {
+      "title": "Assign Data Holder",
+      "searchLabel": "Search data holders",
+      "searchPlaceholder": "Type at least two characters...",
+      "searchHelper": "Only users with the data holder access role appear in this list.",
+      "noInput": "Enter at least two characters to search.",
+      "noResults": "No data holders found.",
+      "searchError": "Unable to search for data holders right now.",
+      "submit": "Assign",
+      "assigning": "Assigning <strong>{{name}}</strong> ({{email}}) from {{organization}}.",
+      "unknownOrganization": "their organisation"
+    }
+  },
+  "submitOutput": {
+    "title": "Submit Output for Review",
+    "subtitle": "Provide the secure workspace folder path containing files ready for egress review along with a justification describing the contents and purpose of the export. You can submit multiple folders concurrently while HDAB staff review your outputs.",
+    "loading": "Preparing submission form...",
+    "notFound": "Permit not found or you do not have access to submit outputs.",
+    "form": {
+      "pathLabel": "Workspace folder path",
+      "pathPlaceholder": "/analysis/outputs/my-report",
+      "justificationLabel": "Egress justification",
+      "justificationHelper": "Describe the files included and why they need to leave the secure environment.",
+      "submit": "Submit for Review",
+      "submitting": "Submitting...",
+      "missingJustification": "Please provide a justification for the egress request.",
+      "success": "Output submitted for review. Tracking ID: {{id}}",
+      "error": "Failed to submit output. Ensure the path is correct."
+    }
+  },
+  "permitActions": {
+    "headings": {
+      "hdab": {
+        "title": "HDAB Review Actions",
+        "description": "Provide a decision to progress the permit review. All decisions are audited."
+      },
+      "member": {
+        "title": "Researcher Actions",
+        "description": "Launch your secure workspace or submit deliverables for egress review."
+      },
+      "dataHolder": {
+        "title": "Data Ingress Actions",
+        "description": "Upload the requested dataset extracts and confirm once the transfer is complete."
+      }
+    },
+    "comments": {
+      "requiredLabel": "Reviewer comments (required)",
+      "optionalLabel": "Reviewer note (optional)",
+      "placeholder": "Add context for the applicant..."
+    },
+    "fallbackInfoMessages": {
+      "hdab": "No HDAB actions are available until the project team completes their next step.",
+      "member": "There are no direct actions required for your project at this stage.",
+      "dataHolder": "No actions are currently required. You will be notified when uploads are needed."
+    },
+    "defaultSuccessMessages": {
+      "decision": "Decision recorded.",
+      "submitSetup": "Workspace submitted for HDAB review.",
+      "initiateIngress": "Data ingress initiated.",
+      "confirmIngress": "Upload confirmed. HDAB will continue processing."
+    },
+    "defaultErrorMessages": {
+      "decision": "Failed to record decision.",
+      "submitSetup": "Failed to submit workspace for review.",
+      "initiateIngress": "Failed to initiate data ingress.",
+      "confirmIngress": "Failed to confirm upload."
+    },
+    "infoMessages": {
+      "hdab": {
+        "AWAITING_INGRESS": "Assign a data holder and initiate the secure transfer to begin preparation.",
+        "INGRESS_IN_PROGRESS": "Monitor the data holder upload. Mark the ingress complete once files are validated.",
+        "DATA_PREPARATION_PENDING": "Complete the preparation workspace and submit when data is ready for review.",
+        "DATA_PREPARATION_REWORK": "Revisit the preparation workspace and resubmit when issues are resolved.",
+        "DATA_PREPARATION_REVIEW_PENDING": "Review the preparation materials and record your decision.",
+        "WORKSPACE_SETUP_PENDING": "Coordinate workspace configuration with the project team and submit when ready for review.",
+        "WORKSPACE_SETUP_REWORK": "Address the requested setup changes and resubmit for review.",
+        "WORKSPACE_SETUP_REVIEW_PENDING": "Review the configured workspace and record your decision.",
+        "ANALYSIS_ACTIVE": "Review pending egress submissions while the research team continues their analysis.",
+        "ANALYSIS_PAUSED": "Project activity is paused. No HDAB action is required."
+      },
+      "member": {
+        "AWAITING_INGRESS": "HDAB will contact your nominated data holder to begin the secure upload.",
+        "INGRESS_IN_PROGRESS": "The data holder is transferring files. HDAB will notify you when preparation starts.",
+        "DATA_PREPARATION_PENDING": "HDAB staff are preparing your datasets. You will be notified when review begins.",
+        "DATA_PREPARATION_REVIEW_PENDING": "HDAB reviewers are checking the prepared data before environment setup can start.",
+        "DATA_PREPARATION_REWORK": "HDAB staff requested updates to the preparation dataset.",
+        "WORKSPACE_SETUP_PENDING": "Configure the workspace and submit once you are ready for HDAB review.",
+        "WORKSPACE_SETUP_REWORK": "Address the requested changes, then resubmit your environment for review.",
+        "WORKSPACE_SETUP_REVIEW_PENDING": "HDAB reviewers are evaluating your workspace setup.",
+        "ANALYSIS_ACTIVE": "Launch the workspace to continue analysis. Monitor egress submissions below and send additional folders whenever you are ready.",
+        "ANALYSIS_PAUSED": "Resume the project to continue working in the workspace."
+      },
+      "dataHolder": {
+        "AWAITING_INGRESS": "Await confirmation from HDAB to begin the secure upload of the requested extracts.",
+        "INGRESS_IN_PROGRESS": "Upload the prepared data through the secure channel, then confirm once the transfer is complete.",
+        "DATA_PREPARATION_PENDING": "HDAB is processing your uploaded files. No further action is required right now."
+      }
+    },
+    "hdabActionsByStatus": {
+      "AWAITING_INGRESS": [
+        {
+          "type": "custom",
+          "actionName": "INITIATE_INGRESS",
+          "label": "Initiate Data Ingress",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Data ingress initiated.",
+          "requires": "canManageHdabTeam"
+        },
+        {
+          "type": "navigate",
+          "label": "Manage Data Holders",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/data-holders",
+          "requires": "canManageHdabTeam"
+        }
+      ],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "navigate",
+          "label": "Manage Data Holders",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/data-holders",
+          "requires": "canManageHdabTeam"
+        }
+      ],
+      "DATA_PREPARATION_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Access Preparation Workspace",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/preprocess",
+          "requires": "canManagePreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Signal Preparation Complete",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "SUBMIT_FOR_REVIEW",
+          "successMessage": "Preparation submitted for HDAB review.",
+          "requires": "canManagePreparation"
+        }
+      ],
+      "DATA_PREPARATION_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Access Preparation Workspace",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/preprocess",
+          "requires": "canManagePreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Resubmit Preparation for Review",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "SUBMIT_FOR_REVIEW",
+          "successMessage": "Preparation resubmitted for HDAB review.",
+          "requires": "canManagePreparation"
+        }
+      ],
+      "DATA_PREPARATION_REVIEW_PENDING": [
+        {
+          "type": "decision",
+          "label": "Approve Preparation",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "APPROVED",
+          "requiresComments": true,
+          "successMessage": "Preparation approved. Permit now awaiting workspace setup.",
+          "requires": "canReviewPreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Request Preparation Rework",
+          "variant": "outlined",
+          "color": "warning",
+          "stage": "PREPARATION",
+          "decision": "REWORK_REQUESTED",
+          "requiresComments": true,
+          "successMessage": "Preparation rework requested.",
+          "requires": "canReviewPreparation"
+        }
+      ],
+      "WORKSPACE_SETUP_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Open Analysis Workspace",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canManageSetup"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Submit Setup for Review",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Workspace setup submitted for HDAB review.",
+          "requires": "canManageSetup"
+        }
+      ],
+      "WORKSPACE_SETUP_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Reopen Analysis Workspace",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canManageSetup"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Resubmit Setup for Review",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Workspace setup resubmitted for HDAB review.",
+          "requires": "canManageSetup"
+        }
+      ],
+      "WORKSPACE_SETUP_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Review Analysis Workspace",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canReviewSetup"
+        },
+        {
+          "type": "decision",
+          "label": "Approve Setup",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "SETUP",
+          "decision": "APPROVED",
+          "requiresComments": true,
+          "successMessage": "Workspace setup approved. Analysis can begin.",
+          "requires": "canReviewSetup"
+        },
+        {
+          "type": "decision",
+          "label": "Request Setup Rework",
+          "variant": "outlined",
+          "color": "warning",
+          "stage": "SETUP",
+          "decision": "REWORK_REQUESTED",
+          "requiresComments": true,
+          "successMessage": "Setup rework requested.",
+          "requires": "canReviewSetup"
+        }
+      ],
+      "ANALYSIS_ACTIVE": [
+        {
+          "type": "navigate",
+          "label": "Review Egress Submissions",
+          "variant": "contained",
+          "color": "primary",
+          "pathTemplate": "/permits/:permitId#egress-review",
+          "requires": "canReviewOutputs",
+          "displayCondition": "hasPendingOutputs"
+        },
+        {
+          "type": "navigate",
+          "label": "View Approved Outputs",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId#egress-review",
+          "requires": "canReviewOutputs",
+          "displayCondition": "hasApprovedOutputs"
+        }
+      ]
+    },
+    "memberActionsByStatus": {
+      "AWAITING_INGRESS": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Open Setup Workspace",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Submit Setup for Review",
+          "variant": "outlined",
+          "successMessage": "Workspace setup submitted for HDAB review.",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Reopen Setup Workspace",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Resubmit Setup for Review",
+          "variant": "outlined",
+          "successMessage": "Workspace setup resubmitted for HDAB review.",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "ANALYSIS_ACTIVE": [
+        {
+          "type": "navigate",
+          "label": "Open Analysis Workspace",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Submit Output for Review",
+          "alternateLabel": "Submit Another Output",
+          "alternateLabelCondition": "hasPendingOutputs",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs",
+          "displayCondition": "noChangesRequested"
+        },
+        {
+          "type": "navigate",
+          "label": "Resubmit Output for Review",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs",
+          "displayCondition": "hasChangesRequested"
+        },
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "ANALYSIS_PAUSED": [
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ]
+    },
+    "dataHolderActionsByStatus": {
+      "AWAITING_INGRESS": [],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "custom",
+          "actionName": "CONFIRM_UPLOAD",
+          "label": "Confirm Upload Complete",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Upload confirmed for HDAB processing.",
+          "requires": "canConfirmIngress"
+        }
+      ]
+    },
+    "fallbackActions": {
+      "member": [
+        {
+          "type": "navigate",
+          "label": "Open Analysis Workspace",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Submit Output for Review",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs"
+        },
+        {
+          "type": "navigate",
+          "label": "Manage Team",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "hdab": [],
+      "dataHolder": []
+    }
+  }
+  ,
+  "workspace": {
+    "labels": {
+      "analysis": "Analysis Workspace",
+      "review": "Review Workspace",
+      "preprocess": "Preprocess Workspace",
+      "default": "Workspace"
+    },
+    "loadingAccess": "Loading workspace access...",
+    "notFound": "Permit not found or you do not have workspace access.",
+    "description": "Manage your secure workspace session. Actions are limited by your role:",
+    "roleDescriptions": {
+      "hdab": "HDAB reviewers can connect to review sessions.",
+      "member": "Researchers can start sessions and submit outputs."
+    },
+    "hdabBanner": "HDAB reviewers access workspaces in a view-only mode for compliance checks. All interactions are audited.",
+    "utilities": {
+      "title": "Workspace Guidance",
+      "description": "All file and data management must occur within the secure Guacamole session provided for this workspace."
+    },
+    "guacamole": {
+      "pendingConnection": "Workspace is not yet connected. Start the environment to obtain connection details.",
+      "title": "Guacamole Connection",
+      "protocol": "Protocol: {{value}}",
+      "host": "Host: {{value}}",
+      "port": "Port: {{value}}",
+      "tunnelId": "Tunnel ID: {{value}}"
+    },
+    "notifications": {
+      "startInitiated": "Workspace start initiated.",
+      "stopInitiated": "Workspace shutdown initiated."
+    },
+    "errors": {
+      "status": "Failed to load workspace status.",
+      "connectionPending": "Workspace is starting; connection not ready yet.",
+      "start": "Unable to start workspace.",
+      "stop": "Unable to stop workspace."
+    },
+    "header": {
+      "title": "Secure Workspace",
+      "lastUpdated": "Status last updated {{time}}",
+      "start": "Start Workspace",
+      "stop": "Stop Workspace"
+    }
+  }
+}

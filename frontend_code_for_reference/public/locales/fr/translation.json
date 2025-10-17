@@ -1,0 +1,886 @@
+{
+  "app": {
+    "title": "Portail Web SPE",
+    "language": "Langue",
+    "languageNames": {
+      "en": "Anglais",
+      "fr": "Français",
+      "nl": "Néerlandais"
+    },
+    "signOut": "se déconnecter",
+    "openNavigation": "Ouvrir la navigation"
+  },
+  "common": {
+    "userFallback": "Utilisateur",
+    "separator": " - ",
+    "cancel": "Annuler",
+    "close": "Fermer"
+  },
+  "navigation": {
+    "dashboard": "Tableau de bord",
+    "account": "Mon compte",
+    "activityLog": "Journal d'activité",
+    "permitQueue": "File d'attente des permis",
+    "myPermits": "Mes permis",
+    "dataIngress": "Entrée de données",
+    "guestUser": "Utilisateur invité",
+    "unknownRole": "Rôle inconnu"
+  },
+  "dashboard": {
+    "title": "Bon retour, {{name}}",
+    "subtitle": "Voici un aperçu rapide de votre activité actuelle en matière de permis.",
+    "loading": "Chargement des données du tableau de bord...",
+    "hdabQueue": {
+      "title": "File d'attente d'actions HDAB",
+      "subtitle": "Permis en attente d’examen ou de suivi du HDAB.",
+      "empty": "Aucun permis ne nécessite une action HDAB pour le moment.",
+      "columns": {
+        "permitId": "ID de permis",
+        "project": "Projet",
+        "status": "Statut",
+        "updated": "Mis à jour"
+      }
+    },
+    "researcherGrid": {
+      "title": "Mes projets",
+      "empty": "Vous n’êtes affecté à aucun permis actif. Lorsque vous rejoignez un projet, il apparaîtra ici.",
+      "changesRequested": "{{count}} mise à jour de sortie demandée",
+      "changesRequested_plural": "{{count}} mises à jour de sortie demandées",
+      "pendingReviews": "{{count}} en attente d'examen de sortie",
+      "pendingReviews_plural": "{{count}} examens de sortie en attente",
+      "lead": "Responsable : {{name}}",
+      "teamCount": "{{count}} membre de l'équipe",
+      "teamCount_plural": "{{count}} membres de l'équipe"
+    },
+    "dataHolderIngress": {
+      "title": "Attributions d'entrée de données",
+      "empty": "Vous n’êtes actuellement affecté à aucun workflow d’entrée de données actif. HDAB vous avertira lorsque de nouveaux téléchargements seront nécessaires.",
+      "contact": "Contact HDAB : {{contact}}",
+      "contactFallback": "A confirmer"
+    }
+  },
+  "actionLog": {
+    "title": "Activité récente",
+    "typeFallback": "Action",
+    "systemActor": "Système",
+    "actorWithPermit": "{{actor}} - {{permit}}",
+    "loading": "Chargement de l'historique des activités...",
+    "errorFallback": "Impossible de charger l'historique des activités pour le moment.",
+    "states": {
+      "noPermitAccess": "L'activité apparaîtra une fois que vous aurez accès à un permis avec des actions sensibles à examiner.",
+      "noPermitSelected": "Sélectionnez un permis pour examiner son activité sensible récente.",
+      "empty": "Aucune action sensible n'a encore été enregistrée pour ce permis."
+    },
+    "helper": {
+      "hdab": "Surveillez les actions sensibles sur les permis HDAB nécessitant une surveillance.",
+      "member": "Suivez les mises à jour de l’espace de travail et des sorties soumises par votre équipe.",
+      "dataHolder": "Gardez une trace des mises à jour d'entrée pour vos permis attribués."
+    },
+    "selector": {
+      "label": "Permis",
+      "placeholder": "Sélectionnez un permis",
+      "fallbackPermit": "Permis",
+      "singleLabel": "Permis : {{permit}}"
+    },
+    "actions": {
+      "refresh": "Rafraîchir",
+      "viewAll": "Afficher le journal d'activité complet"
+    }
+  },
+  "auditLog": {
+    "title": "Journal d'activité",
+    "subtitle": "Passez en revue les actions sensibles enregistrées pour le permis sélectionné. Filtre par défaut l'historique récent afin que le journal reste rapide et lisible.",
+    "subtitleWithReference": "Passez en revue les actions sensibles enregistrées pour votre permis sélectionné ({{reference}}). Filtre par défaut l'historique récent afin que le journal reste rapide et lisible.",
+    "typeFallback": "Action",
+    "loading": "Chargement du journal d'audit...",
+    "filters": {
+      "permitLabel": "Permis",
+      "permitPlaceholder": "Sélectionnez un permis",
+      "noPermits": "Aucun permis disponible",
+      "permitFallback": "Permis",
+      "noPermitSelected": "Aucun permis sélectionné",
+      "dateRange": "Plage de dates",
+      "actionTypes": "Types d'actions",
+      "actionTypesAll": "Tous types",
+      "noActivity": "Aucune activité disponible pour le moment",
+      "searchLabel": "Rechercher une description, une personne ou un permis",
+      "apply": "Appliquer des filtres",
+      "reset": "Réinitialiser aux valeurs par défaut",
+      "showingSince": "Affichage des entrées depuis le {{date}}",
+      "dateRangeOptions": {
+        "7d": "7 derniers jours",
+        "30d": "30 derniers jours",
+        "90d": "90 derniers jours",
+        "180d": "6 derniers mois",
+        "all": "Toutes les activités disponibles"
+      }
+    },
+    "states": {
+      "noAccess": "Les activités sensibles apparaîtront une fois que vous aurez obtenu un permis.",
+      "noPermit": "Sélectionnez un permis pour afficher son journal d'activité.",
+      "empty": "Aucune activité ne correspond encore aux filtres sélectionnés."
+    },
+    "table": {
+      "timestamp": "Horodatage",
+      "action": "Action",
+      "description": "Description",
+      "actor": "Acteur",
+      "permit": "Permis",
+      "systemActor": "Système",
+      "noReference": "—"
+    },
+    "actionTypes": {}
+  },
+  "statuses": {
+    "unknown": "Inconnu",
+    "AWAITING_INGRESS": "En attente d'entrée",
+    "INGRESS_IN_PROGRESS": "Entrée en cours",
+    "DATA_PREPARATION_PENDING": "Préparation des données en attente",
+    "DATA_PREPARATION_REVIEW_PENDING": "Examen de la préparation en attente",
+    "DATA_PREPARATION_REWORK": "Reprise de la préparation",
+    "WORKSPACE_SETUP_PENDING": "Configuration de l'espace de travail en attente",
+    "WORKSPACE_SETUP_REVIEW_PENDING": "Examen de la configuration en attente",
+    "WORKSPACE_SETUP_REWORK": "Refonte de la configuration",
+    "ANALYSIS_ACTIVE": "Analyse active",
+    "ANALYSIS_PAUSED": "Analyse interrompue",
+    "ARCHIVED": "Archivé",
+    "EGRESS_REWORK": "Refonte de la sortie",
+    "EGRESS_REVIEW_PENDING": "Examen de la sortie en attente",
+    "EGRESS_APPROVED": "Sortie approuvée"
+  },
+  "roles": {
+    "project": {
+      "principalInvestigator": "Chercheur principal",
+      "projectMember": "Membre du projet",
+      "anonymousReviewer": "Réviseur anonyme",
+      "fallback": "{{role}}"
+    },
+    "hdab": {
+      "dataPreparator": "Préparateur de données",
+      "dataReviewer": "Examinateur de données",
+      "setupEngineer": "Ingénieur d'installation",
+      "setupReviewer": "Réviseur de configuration",
+      "egressReviewer": "Réviseur de sortie",
+      "fallback": "{{role}}"
+    },
+    "dataHolder": "Titulaire des données",
+    "global": {
+      "SPE_SUPERADMIN": "Super administrateur",
+      "HDAB_STAFF": "Personnel du HDAB",
+      "HDAB_PERMIT_MANAGER": "Gestionnaire de permis HDAB",
+      "DATA_HOLDER_USER": "Titulaire des données",
+      "HEALTH_DATA_USER": "Utilisateur de données de santé",
+      "fallback": "{{role}}"
+    }
+  },
+  "account": {
+    "unknownUser": "Utilisateur inconnu",
+    "noEmail": "Aucun email fourni",
+    "rolesHeading": "Rôles",
+    "noRoles": "Aucun rôle attribué",
+    "organisationHeading": "Organisation",
+    "organisationFallback": "Non spécifié"
+  },
+  "errors": {
+    "accessDenied": {
+      "title": "Accès refusé",
+      "message": "Vous n'êtes pas autorisé à afficher cette page. Veuillez contacter votre administrateur SPE si vous pensez qu'il s'agit d'une erreur.",
+      "action": "Retour au tableau de bord"
+    },
+    "notFound": {
+      "title": "Page introuvable",
+      "message": "La page que vous recherchiez n'existe pas ou a été déplacée.",
+      "action": "Aller au tableau de bord"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Connexion au portail SPE",
+      "subtitle": "Connectez-vous pour accéder à l'environnement de traitement sécurisé.",
+      "email": "E-mail",
+      "password": "Mot de passe",
+      "submit": "Se connecter",
+      "submitting": "Connexion..."
+    }
+  },
+  "myPermits": {
+    "title": "Mes permis",
+    "subtitle": "Une vue consolidée de vos permis attribués avec un accès rapide aux espaces de travail et aux sorties actifs.",
+    "loading": "Chargement de vos permis..."
+  },
+  "dataIngress": {
+    "title": "Tâches d'entrée de données",
+    "subtitle": "Passez en revue les permis que vous prenez en charge et téléchargez les ensembles de données demandés lorsque la fenêtre d'entrée s'ouvre.",
+    "loading": "Chargement des attributions d'entrée..."
+  },
+  "permits": {
+    "list": {
+      "title": "File d'attente des permis",
+      "subtitle": "Passez en revue tous les permis attribués à l’équipe HDAB.",
+      "loading": "Permis de chargement...",
+      "columns": {
+        "reference": "Référence",
+        "project": "Projet",
+        "investigator": "Enquêteur",
+        "status": "Statut",
+        "updated": "Mis à jour"
+      }
+    },
+    "teamList": {
+      "title": "Membres de l'équipe",
+      "empty": "Aucune équipe assignée."
+    },
+    "hdabTeam": {
+      "title": "L'équipe HDAB",
+      "manage": "Gérer l'équipe HDAB",
+      "empty": "Aucun membre du personnel du HDAB n'a encore été affecté à ce permis."
+    },
+    "outputs": {
+      "loading": "Chargement des sorties...",
+      "changesRequested": "HDAB a demandé des mises à jour sur la soumission de {{count}}. Soumettez un dossier révisé lorsque vous êtes prêt.",
+      "changesRequested_plural": "HDAB a demandé des mises à jour sur {{count}} soumissions. Soumettez les dossiers révisés lorsque vous êtes prêt.",
+      "pending": "{{count}} soumission est en attente d'examen par le HDAB.",
+      "pending_plural": "{{count}} soumissions sont en attente d'examen par le HDAB.",
+      "emptyApproved": "Aucun résultat n’a encore été approuvé. Les dossiers approuvés apparaîtront ici une fois que le HDAB aura finalisé sa décision.",
+      "emptyPending": "Aucun résultat n'a encore été soumis. Lorsque vous envoyez un dossier pour révision, il apparaîtra ici avec son statut.",
+      "reviewed": {
+        "approved": "Approuvé",
+        "lastReviewed": "Dernière révision"
+      },
+      "submittedOn": "Soumis le {{date}}",
+      "reviewedAt": "{{label}} {{date}}",
+      "download": {
+        "preparing": "Préparation du téléchargement...",
+        "button": "Téléchargez les fichiers approuvés",
+        "error": "Impossible de récupérer le lien de téléchargement."
+      },
+      "summary": "{{approved}} approuvé | {{pending}} en attente d'examen | {{pending}} avec les mises à jour demandées",
+      "reviewPanel": {
+        "title": "File d'attente de révision de sortie",
+        "description": "Examinez les soumissions en attente et documentez votre décision. Les chercheurs sont automatiquement informés lorsque vous approuvez ou demandez des modifications.",
+        "loading": "Chargement des soumissions…",
+        "readOnly": "Vous disposez d'un accès en lecture seule à la file d'attente de sortie.",
+        "noPendingInfo": "Les décisions peuvent être enregistrées une fois que les soumissions sont en attente d’examen.",
+        "empty": "Aucun résultat n'a encore été soumis. Lorsque l'équipe de recherche envoie un dossier pour examen, il apparaîtra ici avec son statut.",
+        "reviewButton": "Soumission d'examen",
+        "summary": "{{approved}} approuvé • {{pending}} en attente d'examen • {{changesRequested}} avec les mises à jour demandées",
+        "requestRework": "Demander une refonte",
+        "approve": "Approuver la sortie",
+        "submitting": "Soumission…",
+        "justification": "Justification : {{description}}",
+        "alerts": {
+          "changesRequested": "{{count}} soumission est en attente de mises à jour des chercheurs avant de pouvoir être approuvée.",
+          "changesRequested_plural": "{{count}} soumissions attendent les mises à jour des chercheurs avant de pouvoir être approuvées.",
+          "pending": "{{count}} soumission est en attente d'examen par le HDAB.",
+          "pending_plural": "{{count}} soumissions sont en attente d'examen par le HDAB."
+        },
+        "errors": {
+          "noPermission": "Vous n'êtes pas autorisé à enregistrer les décisions.",
+          "noPending": "Il n’y a aucune soumission en attente disponible pour examen.",
+          "commentsRequired": "Des commentaires sont requis lors d’une demande de retouche.",
+          "submit": "Échec de l'enregistrement de la décision de révision. Veuillez réessayer."
+        },
+        "success": {
+          "approved": "Sortie approuvée pour la sortie.",
+          "rework": "Refonte de sortie demandée."
+        },
+        "comments": {
+          "label": "Commentaires des évaluateurs",
+          "placeholder": "Documentez la justification de l’approbation ou les modifications requises.",
+          "helper": "Les commentaires sont facultatifs pour les approbations et requis pour les demandes de retouche."
+        },
+        "dialog": {
+          "title": "Examiner la soumission de sortie",
+          "folderPath": "Chemin du dossier",
+          "justification": "Justification du chercheur"
+        }
+      }
+    },
+    "dataHolderPanel": {
+      "title": "Contacts du projet",
+      "subtitle": "Contactez-nous si vous avez des questions sur le transfert de données.",
+      "principalInvestigator": "Chercheur principal",
+      "coordinator": "Coordonnateur du HDAB"
+    },
+    "detail": {
+      "loading": "Chargement des détails du permis...",
+      "notFound": "Aucun permis trouvé pour l'identifiant fourni.",
+      "summaryTitle": "Résumé du projet",
+      "dataHolder": {
+        "overviewTitle": "Aperçu du permis",
+        "overviewDescription": "Passez en revue les détails clés de ce transfert.",
+        "datasetLabel": "Ensemble de données :",
+        "referenceLabel": "Référence du permis :",
+        "updatedLabel": "Dernière mise à jour :"
+      }
+    },
+    "header": {
+      "steps": {
+        "dataIngress": "Entrée de données",
+        "preparation": "Préparation",
+        "preparationReview": "Examen de la préparation",
+        "setup": "Installation",
+        "setupReview": "Examen de la configuration",
+        "analysis": "Analyse",
+        "complete": "Complet"
+      },
+      "reference": "Référence du permis : {{reference}}",
+      "principalInvestigator": "PI : {{name}}",
+      "createdOn": "Créé le {{date}}",
+      "egressUpdates": "Mises à jour de sortie demandées : {{count}}",
+      "pendingReviews": "Examens de sortie en attente : {{count}}",
+      "approvedOutputs": "Résultats approuvés : {{count}}"
+    }
+  },
+  "teamManagement": {
+    "title": "Gestion d'équipe",
+    "subtitle": "Ajoutez ou supprimez des collaborateurs sur ce permis. Les invitations sont acheminées via le workflow de provisionnement SPE.",
+    "loading": "Chargement de l'équipe du permis...",
+    "loadingMessage": "Équipe permis de chargement. S'il vous plaît, attendez…",
+    "inviteButton": "Inviter un collaborateur",
+    "inviteSuccess": "Invitation envoyée à {{email}}.",
+    "removeSuccess": "Collaborateur supprimé de l’équipe.",
+    "removeAriaLabel": "Supprimer un collaborateur",
+    "dialog": {
+      "title": "Inviter un collaborateur",
+      "emailLabel": "Adresse email",
+      "submit": "Envoyer une invitation"
+    }
+  },
+  "hdabTeamDialog": {
+    "title": "Gérer l'équipe HDAB",
+    "description": "Affectez du personnel du HDAB à ce permis avec le rôle fonctionnel approprié. Les membres du personnel n'ont accès au permis que lorsqu'ils sont explicitement attribués.",
+    "errors": {
+      "search": "Impossible de rechercher le personnel HDAB. Veuillez réessayer."
+    },
+    "success": {
+      "assign": "{{name}} assigné en tant que {{role}}.",
+      "remove": "Un membre de l’équipe HDAB retiré du permis."
+    },
+    "search": {
+      "label": "Rechercher le personnel du HDAB",
+      "placeholder": "Tapez au moins deux caractères...",
+      "helper": "Recherchez par nom ou par e-mail."
+    },
+    "roleLabel": "Rôle de permis",
+    "assignButton": "Attribuer pour permettre",
+    "currentHeading": "Missions en cours",
+    "empty": "Aucun membre du personnel du HDAB n'est actuellement affecté à ce permis.",
+    "removeAriaLabel": "Supprimer un membre de l'équipe",
+    "noEmail": "Aucun email fourni"
+  },
+  "dataHolderManagement": {
+    "title": "Gestion des détenteurs de données",
+    "subtitle": "Invitez ou supprimez les détenteurs de données responsables du téléchargement des extraits de sources pour ce permis.",
+    "loading": "Chargement des détenteurs de données...",
+    "loadingMessage": "Chargement des informations sur le permis. S'il vous plaît, attendez…",
+    "assignButton": "Attribuer un détenteur de données",
+    "assignSuccess": "{{name}} désigné comme détenteur des données.",
+    "removeSuccess": "Titulaire des données supprimé.",
+    "empty": "Aucun détenteur de données attribué.",
+    "removeAriaLabel": "Supprimer le détenteur de données",
+    "dialog": {
+      "title": "Attribuer un détenteur de données",
+      "searchLabel": "Rechercher des détenteurs de données",
+      "searchPlaceholder": "Tapez au moins deux caractères...",
+      "searchHelper": "Seuls les utilisateurs ayant le rôle d'accès au détenteur de données apparaissent dans cette liste.",
+      "noInput": "Entrez au moins deux caractères à rechercher.",
+      "noResults": "Aucun détenteur de données trouvé.",
+      "searchError": "Impossible de rechercher les détenteurs de données pour le moment.",
+      "submit": "Attribuer",
+      "assigning": "Attribution de <strong>{{name}}</strong> ({{email}}) de {{organization}}.",
+      "unknownOrganization": "leur organisation"
+    }
+  },
+  "submitOutput": {
+    "title": "Soumettre le résultat pour examen",
+    "subtitle": "Fournissez le chemin du dossier de l'espace de travail sécurisé contenant les fichiers prêts à être examinés en sortie, ainsi qu'une justification décrivant le contenu et l'objectif de l'exportation. Vous pouvez soumettre plusieurs dossiers simultanément pendant que le personnel du HDAB examine vos résultats.",
+    "loading": "Préparation du formulaire de soumission...",
+    "notFound": "Permis introuvable ou vous n’avez pas accès pour soumettre les résultats.",
+    "form": {
+      "pathLabel": "Chemin du dossier de l'espace de travail",
+      "pathPlaceholder": "/analyse/sorties/mon-rapport",
+      "justificationLabel": "Justification de la sortie",
+      "justificationHelper": "Décrivez les fichiers inclus et pourquoi ils doivent quitter l'environnement sécurisé.",
+      "submit": "Soumettre pour examen",
+      "submitting": "Soumission...",
+      "missingJustification": "Veuillez fournir une justification pour la demande de sortie.",
+      "success": "Résultat soumis pour examen. Identifiant de suivi : {{id}}",
+      "error": "Échec de la soumission du résultat. Assurez-vous que le chemin est correct."
+    }
+  },
+  "permitActions": {
+    "headings": {
+      "hdab": {
+        "title": "Actions de révision du HDAB",
+        "description": "Fournir une décision pour faire progresser l’examen du permis. Toutes les décisions sont auditées."
+      },
+      "member": {
+        "title": "Actions des chercheurs",
+        "description": "Lancez votre espace de travail sécurisé ou soumettez les livrables pour examen de sortie."
+      },
+      "dataHolder": {
+        "title": "Actions d'entrée de données",
+        "description": "Téléchargez les extraits de jeux de données demandés et confirmez une fois le transfert terminé."
+      }
+    },
+    "comments": {
+      "requiredLabel": "Commentaires des évaluateurs (obligatoires)",
+      "optionalLabel": "Note du réviseur (facultatif)",
+      "placeholder": "Ajouter du contexte pour le candidat..."
+    },
+    "fallbackInfoMessages": {
+      "hdab": "Aucune action HDAB n'est disponible tant que l'équipe du projet n'a pas terminé l'étape suivante.",
+      "member": "Aucune action directe n’est requise pour votre projet à ce stade.",
+      "dataHolder": "Aucune action n'est actuellement requise. Vous serez averti lorsque des téléchargements seront nécessaires."
+    },
+    "defaultSuccessMessages": {
+      "decision": "Decision recorded.",
+      "submitSetup": "Espace de travail soumis pour examen au HDAB.",
+      "initiateIngress": "Entrée de données initiée.",
+      "confirmIngress": "Téléchargement confirmé. HDAB poursuivra le traitement."
+    },
+    "defaultErrorMessages": {
+      "decision": "Failed to record decision.",
+      "submitSetup": "Échec de la soumission de l'espace de travail pour examen.",
+      "initiateIngress": "Échec de l'initialisation de l'entrée de données.",
+      "confirmIngress": "Échec de la confirmation du téléchargement."
+    },
+    "infoMessages": {
+      "hdab": {
+        "AWAITING_INGRESS": "Désignez un détenteur de données et lancez le transfert sécurisé pour commencer la préparation.",
+        "INGRESS_IN_PROGRESS": "Surveillez le téléchargement du détenteur de données. Marquez l’entrée comme terminée une fois les fichiers validés.",
+        "DATA_PREPARATION_PENDING": "Complétez l'espace de travail de préparation et soumettez-le lorsque les données sont prêtes à être révisées.",
+        "DATA_PREPARATION_REWORK": "Revisitez l’espace de travail de préparation et soumettez-le à nouveau lorsque les problèmes sont résolus.",
+        "DATA_PREPARATION_REVIEW_PENDING": "Passez en revue le matériel de préparation et enregistrez votre décision.",
+        "WORKSPACE_SETUP_PENDING": "Coordonner la configuration de l'espace de travail avec l'équipe de projet et soumettre lorsque vous êtes prêt pour examen.",
+        "WORKSPACE_SETUP_REWORK": "Répondez aux modifications de configuration demandées et soumettez-les à nouveau pour examen.",
+        "WORKSPACE_SETUP_REVIEW_PENDING": "Passez en revue l’espace de travail configuré et enregistrez votre décision.",
+        "ANALYSIS_ACTIVE": "Examinez les soumissions de sortie en attente pendant que l’équipe de recherche poursuit son analyse.",
+        "ANALYSIS_PAUSED": "L'activité du projet est suspendue. Aucune action HDAB n’est requise."
+      },
+      "member": {
+        "AWAITING_INGRESS": "HDAB contactera le détenteur de données désigné pour commencer le téléchargement sécurisé.",
+        "INGRESS_IN_PROGRESS": "Le détenteur des données transfère des fichiers. HDAB vous avertira lorsque la préparation commencera.",
+        "DATA_PREPARATION_PENDING": "Le personnel du HDAB prépare vos ensembles de données. Vous serez averti lorsque l'examen commencera.",
+        "DATA_PREPARATION_REVIEW_PENDING": "Les réviseurs HDAB vérifient les données préparées avant que la configuration de l'environnement puisse démarrer.",
+        "DATA_PREPARATION_REWORK": "Le personnel du HDAB a demandé des mises à jour de l’ensemble de données de préparation.",
+        "WORKSPACE_SETUP_PENDING": "Configurez l'espace de travail et soumettez-le une fois que vous êtes prêt pour l'examen HDAB.",
+        "WORKSPACE_SETUP_REWORK": "Répondez aux modifications demandées, puis soumettez à nouveau votre environnement pour examen.",
+        "WORKSPACE_SETUP_REVIEW_PENDING": "Les réviseurs HDAB évaluent la configuration de votre espace de travail.",
+        "ANALYSIS_ACTIVE": "Lancez l'espace de travail pour poursuivre l'analyse. Surveillez les soumissions de sortie ci-dessous et envoyez des dossiers supplémentaires chaque fois que vous êtes prêt.",
+        "ANALYSIS_PAUSED": "Reprenez le projet pour continuer à travailler dans l'espace de travail."
+      },
+      "dataHolder": {
+        "AWAITING_INGRESS": "Attendez la confirmation de HDAB pour commencer le téléchargement sécurisé des extraits demandés.",
+        "INGRESS_IN_PROGRESS": "Téléchargez les données préparées via le canal sécurisé, puis confirmez une fois le transfert terminé.",
+        "DATA_PREPARATION_PENDING": "HDAB traite vos fichiers téléchargés. Aucune autre action n’est requise pour le moment."
+      }
+    },
+    "hdabActionsByStatus": {
+      "AWAITING_INGRESS": [
+        {
+          "type": "custom",
+          "actionName": "INITIATE_INGRESS",
+          "label": "Initier l'entrée de données",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Entrée de données initiée.",
+          "requires": "canManageHdabTeam"
+        },
+        {
+          "type": "navigate",
+          "label": "Gérer les détenteurs de données",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/data-holders",
+          "requires": "canManageHdabTeam"
+        }
+      ],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "navigate",
+          "label": "Gérer les détenteurs de données",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/data-holders",
+          "requires": "canManageHdabTeam"
+        }
+      ],
+      "DATA_PREPARATION_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Accès à l’espace de travail de préparation",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/preprocess",
+          "requires": "canManagePreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Préparation du signal terminée",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "SUBMIT_FOR_REVIEW",
+          "successMessage": "Préparation soumise pour examen au HDAB.",
+          "requires": "canManagePreparation"
+        }
+      ],
+      "DATA_PREPARATION_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Accès à l’espace de travail de préparation",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/preprocess",
+          "requires": "canManagePreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Soumettre à nouveau la préparation pour examen",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "SUBMIT_FOR_REVIEW",
+          "successMessage": "Préparation soumise à nouveau pour examen par le HDAB.",
+          "requires": "canManagePreparation"
+        }
+      ],
+      "DATA_PREPARATION_REVIEW_PENDING": [
+        {
+          "type": "decision",
+          "label": "Approuver la préparation",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "PREPARATION",
+          "decision": "APPROVED",
+          "requiresComments": true,
+          "successMessage": "Préparation approuvée. Permis en attente de configuration de l'espace de travail.",
+          "requires": "canReviewPreparation"
+        },
+        {
+          "type": "decision",
+          "label": "Retravailler la préparation des demandes",
+          "variant": "outlined",
+          "color": "warning",
+          "stage": "PREPARATION",
+          "decision": "REWORK_REQUESTED",
+          "requiresComments": true,
+          "successMessage": "Reprise de préparation demandée.",
+          "requires": "canReviewPreparation"
+        }
+      ],
+      "WORKSPACE_SETUP_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Ouvrir l'espace de travail d'analyse",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canManageSetup"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Soumettre la configuration pour examen",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Configuration de l'espace de travail soumise pour examen par HDAB.",
+          "requires": "canManageSetup"
+        }
+      ],
+      "WORKSPACE_SETUP_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Rouvrir l'espace de travail d'analyse",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canManageSetup"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Soumettre à nouveau la configuration pour examen",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Configuration de l'espace de travail soumise à nouveau pour examen par HDAB.",
+          "requires": "canManageSetup"
+        }
+      ],
+      "WORKSPACE_SETUP_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Espace de travail d’analyse de révision",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId/workspace/analysis",
+          "requires": "canReviewSetup"
+        },
+        {
+          "type": "decision",
+          "label": "Approuver la configuration",
+          "variant": "contained",
+          "color": "primary",
+          "stage": "SETUP",
+          "decision": "APPROVED",
+          "requiresComments": true,
+          "successMessage": "Configuration de l'espace de travail approuvée. L'analyse peut commencer.",
+          "requires": "canReviewSetup"
+        },
+        {
+          "type": "decision",
+          "label": "Demander une refonte de la configuration",
+          "variant": "outlined",
+          "color": "warning",
+          "stage": "SETUP",
+          "decision": "REWORK_REQUESTED",
+          "requiresComments": true,
+          "successMessage": "Reprise de la configuration demandée.",
+          "requires": "canReviewSetup"
+        }
+      ],
+      "ANALYSIS_ACTIVE": [
+        {
+          "type": "navigate",
+          "label": "Examiner les soumissions de sortie",
+          "variant": "contained",
+          "color": "primary",
+          "pathTemplate": "/permits/:permitId#egress-review",
+          "requires": "canReviewOutputs",
+          "displayCondition": "hasPendingOutputs"
+        },
+        {
+          "type": "navigate",
+          "label": "Afficher les résultats approuvés",
+          "variant": "outlined",
+          "pathTemplate": "/permits/:permitId#egress-review",
+          "requires": "canReviewOutputs",
+          "displayCondition": "hasApprovedOutputs"
+        }
+      ]
+    },
+    "memberActionsByStatus": {
+      "AWAITING_INGRESS": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "DATA_PREPARATION_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Ouvrir l'espace de travail de configuration",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Soumettre la configuration pour examen",
+          "variant": "outlined",
+          "successMessage": "Configuration de l'espace de travail soumise pour examen par HDAB.",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_REWORK": [
+        {
+          "type": "navigate",
+          "label": "Rouvrir l'espace de travail de configuration",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "submitSetup",
+          "label": "Soumettre à nouveau la configuration pour examen",
+          "variant": "outlined",
+          "successMessage": "Configuration de l'espace de travail soumise à nouveau pour examen par HDAB.",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "WORKSPACE_SETUP_REVIEW_PENDING": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "ANALYSIS_ACTIVE": [
+        {
+          "type": "navigate",
+          "label": "Ouvrir l'espace de travail d'analyse",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Soumettre le résultat pour examen",
+          "alternateLabel": "Soumettre une autre sortie",
+          "alternateLabelCondition": "hasPendingOutputs",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs",
+          "displayCondition": "noChangesRequested"
+        },
+        {
+          "type": "navigate",
+          "label": "Soumettre à nouveau le résultat pour examen",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs",
+          "displayCondition": "hasChangesRequested"
+        },
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "ANALYSIS_PAUSED": [
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ]
+    },
+    "dataHolderActionsByStatus": {
+      "AWAITING_INGRESS": [],
+      "INGRESS_IN_PROGRESS": [
+        {
+          "type": "custom",
+          "actionName": "CONFIRM_UPLOAD",
+          "label": "Confirmer le téléchargement terminé",
+          "variant": "contained",
+          "color": "primary",
+          "successMessage": "Téléchargement confirmé pour le traitement HDAB.",
+          "requires": "canConfirmIngress"
+        }
+      ]
+    },
+    "fallbackActions": {
+      "member": [
+        {
+          "type": "navigate",
+          "label": "Ouvrir l'espace de travail d'analyse",
+          "variant": "contained",
+          "pathTemplate": "/my-permits/:permitId/workspace/analysis",
+          "requires": "canSubmitWorkspace"
+        },
+        {
+          "type": "navigate",
+          "label": "Soumettre le résultat pour examen",
+          "variant": "outlined",
+          "pathTemplate": "/my-permits/:permitId/outputs/new",
+          "requires": "canSubmitOutputs"
+        },
+        {
+          "type": "navigate",
+          "label": "Gérer l'équipe",
+          "variant": "text",
+          "pathTemplate": "/my-permits/:permitId/team",
+          "requires": "canManageTeam"
+        }
+      ],
+      "hdab": [],
+      "dataHolder": []
+    }
+  },
+  "workspace": {
+    "labels": {
+      "analysis": "Espace de travail d'analyse",
+      "review": "Réviser l'espace de travail",
+      "preprocess": "Espace de travail de prétraitement",
+      "default": "Espace de travail"
+    },
+    "loadingAccess": "Chargement de l'accès à l'espace de travail...",
+    "notFound": "Permis introuvable ou vous n’avez pas accès à l’espace de travail.",
+    "description": "Gérez votre session d'espace de travail sécurisé. Les actions sont limitées par votre rôle :",
+    "roleDescriptions": {
+      "hdab": "Les réviseurs HDAB peuvent se connecter aux sessions de révision.",
+      "member": "Les chercheurs peuvent démarrer des sessions et soumettre des résultats."
+    },
+    "hdabBanner": "Les réviseurs HDAB accèdent aux espaces de travail en mode visualisation seule pour les contrôles de conformité. Toutes les interactions sont auditées.",
+    "utilities": {
+      "title": "Conseils pour l'espace de travail",
+      "description": "Toute gestion de fichiers et de données doit se faire dans la session sécurisée Guacamole fournie pour cet espace de travail."
+    },
+    "guacamole": {
+      "pendingConnection": "L'espace de travail n'est pas encore connecté. Démarrez l'environnement pour obtenir les détails de connexion.",
+      "title": "Connexion Guacamole",
+      "protocol": "Protocole : {{value}}",
+      "host": "Hôte : {{value}}",
+      "port": "Port : {{value}}",
+      "tunnelId": "ID du tunnel : {{value}}"
+    },
+    "notifications": {
+      "startInitiated": "Démarrage de l'espace de travail lancé.",
+      "stopInitiated": "Arrêt de l'espace de travail initié."
+    },
+    "errors": {
+      "status": "Échec du chargement de l'état de l'espace de travail.",
+      "connectionPending": "L'espace de travail démarre ; la connexion n'est pas encore prête.",
+      "start": "Impossible de démarrer l'espace de travail.",
+      "stop": "Impossible d'arrêter l'espace de travail."
+    },
+    "header": {
+      "title": "Espace de travail sécurisé",
+      "lastUpdated": "Statut mis à jour pour la dernière fois {{time}}",
+      "start": "Démarrer l'espace de travail",
+      "stop": "Arrêter l'espace de travail"
+    }
+  }
+}

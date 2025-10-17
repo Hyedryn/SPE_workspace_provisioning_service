@@ -1,0 +1,112 @@
+// Prisma schema for SPE Permit Manager Service
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma-client"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Permit {
+  id                    String                  @id @default(uuid())
+  reference             String                  @unique
+  projectTitle          String
+  principalInvestigator String?
+  dataset               String?
+  status                String                  @db.VarChar(50)
+  description           String?
+  createdAt             DateTime                @default(now())
+  updatedAt             DateTime                @updatedAt
+
+  teamMembers           TeamMember[]
+  hdabAssignments       HdabAssignment[]
+  dataHolderAssignments DataHolderAssignment[]
+  outputs               Output[]
+  stateLogs             PermitStateLog[]
+  activityLogs          PermitActivityLog[]
+}
+
+model TeamMember {
+  id           String  @id @default(uuid())
+  permitId     String
+  userId       String?
+  name         String?
+  email        String
+  organization String?
+  role         String  @db.VarChar(50)
+
+  permit Permit @relation(fields: [permitId], references: [id], onDelete: Cascade)
+
+  @@unique([permitId, userId])
+}
+
+model HdabAssignment {
+  id         Int     @id @default(autoincrement())
+  permitId   String
+  userId     String
+  permitRole String  @db.VarChar(50)
+
+  permit Permit @relation(fields: [permitId], references: [id], onDelete: Cascade)
+
+  @@unique([permitId, userId, permitRole])
+}
+
+model DataHolderAssignment {
+  id           String  @id @default(uuid())
+  permitId     String
+  userId       String
+  name         String?
+  email        String?
+  organization String?
+
+  permit Permit @relation(fields: [permitId], references: [id], onDelete: Cascade)
+
+  @@unique([permitId, userId])
+}
+
+model Output {
+  id               String   @id @default(uuid())
+  permitId         String
+  folderPath       String
+  description      String?
+  status           String   @db.VarChar(50)
+  submittedAt      DateTime @default(now())
+  reviewedAt       DateTime?
+  reviewerComments String?
+  reviewedByUserId String?
+
+  permit Permit @relation(fields: [permitId], references: [id], onDelete: Cascade)
+}
+
+model PermitStateLog {
+  id             Int      @id @default(autoincrement())
+  permitId       String
+  userId         String?
+  previousStatus String?  @db.VarChar(50)
+  newStatus      String   @db.VarChar(50)
+  comments       String?
+  timestamp      DateTime @default(now())
+
+  permit Permit @relation(fields: [permitId], references: [id], onDelete: Cascade)
+}
+
+model PermitActivityLog {
+  id          String   @id @default(uuid())
+  permitId    String
+  type        String   @db.VarChar(100)
+  description String?
+  actorUserId String?
+  actorName   String?
+  actorEmail  String?
+  targetUser  Json?
+  metadata    Json?
+  createdAt   DateTime @default(now())
+
+  permit Permit @relation(fields: [permitId], references: [id], onDelete: Cascade)
+
+  @@index([permitId, createdAt])
+  @@index([permitId, type])
+}
