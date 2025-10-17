@@ -76,10 +76,10 @@ def build_network_policy(
                             "cidr": rule.cidr,
                         }
                     }
-                    for rule in egress_rules or []
                 ],
                 "ports": _ports(rule.ports),
             }
+            for rule in egress_rules
         ] if egress_rules else []
     elif profile == NetworkPolicyProfile.SETUP and proxy_selector:
         egress = [

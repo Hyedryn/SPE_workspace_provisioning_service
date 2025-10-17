@@ -4,7 +4,7 @@ from __future__ import annotations
 from functools import lru_cache
 from typing import List, Optional
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
@@ -46,7 +46,7 @@ class PulumiConfig(BaseModel):
         True, description="Refresh stack state from the provider before updating"
     )
 
-    @validator("stack_prefix")
+    @field_validator("stack_prefix")
     def _normalize_stack_prefix(cls, value: str) -> str:
         return value.replace(" ", "-").lower()
 
