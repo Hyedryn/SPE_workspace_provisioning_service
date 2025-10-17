@@ -4,13 +4,6 @@ Welcome, AI Coding Agent. Your primary task is to implement the **Workspace Prov
 
 In addition to the Workspace Provisioning Service microservice implementation, this repository contains several context files designed to guide your implementation.
 
-### Your Primary Task & Core Blueprint
-
-**The main initial instruction set is in `initial_blueprint.md`.**
-
-*   **File:** `initial_blueprint.md`
-*   **Purpose:** This is the **draft technical blueprint** for the Workspace Provisioning Service. It contains the specification.
-*   **How to use it:** Treat this as a guideline for implementation. Your final code should adhere to the specifications detailed in this document.
 
 ### Supporting Context Files
 
