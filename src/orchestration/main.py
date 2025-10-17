@@ -513,7 +513,7 @@ class WorkspaceOrchestrator:
             {"workspaceType": workspace_type.value, "stackName": stack_name},
         )
 
-    def _scale_stack(self, permit_id: str, workspace_type: WorkspaceType, replicas: int) -> None:
+    def _scale_stack(self, permit_id: str, workspace_type: WorkspaceType, replicas: int) -> bool:
         stack_name = self._stack_name(permit_id, workspace_type)
         LOGGER.info(
             "Scaling workspace stack",
@@ -522,7 +522,7 @@ class WorkspaceOrchestrator:
         plan_data = self._state_manager.get_plan(permit_id, workspace_type.value)
         if not plan_data:
             LOGGER.warning("No stored plan for workspace; scaling skipped", extra={"permit_id": permit_id, "workspace_type": workspace_type.value})
-            return
+            return False
         plan = self._plan_from_dict(plan_data)
         plan.stack_name = stack_name
         plan.workspace_spec.replicas = replicas
@@ -546,10 +546,10 @@ class WorkspaceOrchestrator:
                     "pulumiDisabled": True,
                 },
             )
-            return
+            return True
         success = self._apply_stack(permit_id, workspace_type, plan, action)
         if not success:
-            return
+            return False
         if replicas > 0:
             plan.network.profile = original_profile
         self._state_manager.set_plan(permit_id, workspace_type.value, self._plan_to_dict(plan))
@@ -559,16 +559,19 @@ class WorkspaceOrchestrator:
             "SUCCESS",
             {"workspaceType": workspace_type.value, "stackName": stack_name, "replicas": replicas},
         )
+        return True
 
     def _stop_workspace(self, permit_id: str) -> None:
         LOGGER.info("Stop requested for workspace", extra={"permit_id": permit_id})
-        self._scale_stack(permit_id, WorkspaceType.ANALYSIS, replicas=0)
-        self._state_manager.set_status(permit_id, "STOPPED")
+        success = self._scale_stack(permit_id, WorkspaceType.ANALYSIS, replicas=0)
+        if success:
+            self._state_manager.set_status(permit_id, "STOPPED")
 
     def _start_workspace(self, permit_id: str) -> None:
         LOGGER.info("Start requested for workspace", extra={"permit_id": permit_id})
-        self._scale_stack(permit_id, WorkspaceType.ANALYSIS, replicas=1)
-        self._state_manager.set_status(permit_id, "RUNNING")
+        success = self._scale_stack(permit_id, WorkspaceType.ANALYSIS, replicas=1)
+        if success:
+            self._state_manager.set_status(permit_id, "RUNNING")
 
     def _destroy_all(self, permit_id: str) -> None:
         LOGGER.info("Destroying all workspace resources", extra={"permit_id": permit_id})
