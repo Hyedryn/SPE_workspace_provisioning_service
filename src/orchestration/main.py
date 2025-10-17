@@ -60,6 +60,260 @@ class WorkspacePlan:
     refresh: bool = True
 
 
+@dataclass(frozen=True)
+class VolumeTemplate:
+    """Declarative template describing a workspace volume."""
+
+    name: str
+    mount_path: str
+    read_only: bool
+    access_modes: List[str]
+    default_size: str
+    size_key: Optional[str] = None
+    storage_class: str = "spe-ceph-rbd"
+    storage_class_key: Optional[str] = None
+
+    def build(self, payload: Dict[str, Any]) -> VolumeSpec:
+        size = (
+            payload.get(self.size_key, self.default_size)
+            if self.size_key
+            else self.default_size
+        )
+        storage_class = (
+            payload.get(self.storage_class_key, self.storage_class)
+            if self.storage_class_key
+            else self.storage_class
+        )
+        return VolumeSpec(
+            name=self.name,
+            storage_class=storage_class,
+            size=size,
+            access_modes=self.access_modes,
+            read_only=self.read_only,
+            mount_path=self.mount_path,
+        )
+
+
+@dataclass(frozen=True)
+class WorkspaceConfigEntry:
+    """Declarative defaults for each workspace type."""
+
+    image: str
+    network_profile: NetworkPolicyProfile
+    default_env: Dict[str, str] = field(default_factory=dict)
+    require_user: bool = True
+    volume_templates: Optional[Iterable[VolumeTemplate]] = None
+    volume_factory: Optional[Callable[[Dict[str, Any]], Iterable[VolumeSpec]]] = None
+    network_factory: Optional[
+        Callable[[Dict[str, Any], NetworkPolicyProfile], NetworkConfig]
+    ] = None
+    connection_secret_factory: Optional[
+        Callable[[PermitEvent, WorkspaceSpec, Dict[str, Any]], Optional[Dict[str, str]]]
+    ] = None
+    connection_info_factory: Optional[
+        Callable[[WorkspaceSpec, Dict[str, Any], Optional[Dict[str, str]]], Dict[str, Any]]
+    ] = None
+
+
+DEFAULT_PROXY_SELECTOR = {
+    "namespaceSelector": {"matchLabels": {"kubernetes.io/metadata.name": "infra"}},
+    "podSelector": {"matchLabels": {"app": "spe-proxy"}},
+}
+
+
+def _ingress_volume_factory(payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
+    data_holders = payload.get("data_holders", [])
+    if not data_holders:
+        return [
+            VolumeSpec(
+                name="uploads",
+                storage_class=payload.get("uploads_storage_class", "spe-ceph-rbd"),
+                size=payload.get("uploads_volume_size", "20Gi"),
+                access_modes=["ReadWriteOnce"],
+                read_only=False,
+                mount_path="/uploads",
+            )
+        ]
+    volumes: List[VolumeSpec] = []
+    for holder in data_holders:
+        holder_id = holder.get("id", "dh")
+        volumes.append(
+            VolumeSpec(
+                name=f"uploads-{holder_id}",
+                storage_class=holder.get("storage_class", "spe-ceph-rbd"),
+                size=holder.get("size", payload.get("uploads_volume_size", "20Gi")),
+                access_modes=["ReadWriteOnce"],
+                read_only=False,
+                mount_path=f"/uploads/{holder_id}",
+            )
+        )
+    return volumes
+
+
+def _ingress_network_factory(
+    payload: Dict[str, Any], profile: NetworkPolicyProfile
+) -> NetworkConfig:
+    ingress_rules = [
+        CIDRRule(rule.get("cidr", "0.0.0.0/0"), rule.get("ports", [22]))
+        for rule in payload.get("allowed_ingress", [])
+    ]
+    egress_rules = [
+        CIDRRule(rule.get("cidr", "0.0.0.0/0"), rule.get("ports", []))
+        for rule in payload.get("allowed_egress", [])
+    ]
+    return NetworkConfig(profile=profile, ingress=ingress_rules, egress=egress_rules)
+
+
+def _setup_network_factory(
+    payload: Dict[str, Any], profile: NetworkPolicyProfile
+) -> NetworkConfig:
+    selector = payload.get("proxy_selector") or DEFAULT_PROXY_SELECTOR
+    return NetworkConfig(profile=profile, proxy_selector=selector)
+
+
+def _ingress_connection_secret_factory(
+    event: PermitEvent, workspace: WorkspaceSpec, payload: Dict[str, Any]
+) -> Dict[str, str]:
+    if payload.get("connection_secret"):
+        return payload["connection_secret"]
+    return {
+        "username": payload.get("service_user", f"permit-{event.permit_id}"),
+        "password": payload.get("service_password", "generated-secret"),
+    }
+
+
+def _ingress_connection_info_factory(
+    workspace: WorkspaceSpec,
+    payload: Dict[str, Any],
+    secret: Optional[Dict[str, str]],
+) -> Dict[str, Any]:
+    if payload.get("connection"):
+        return payload["connection"]
+    username = payload.get("service_user")
+    password = payload.get("service_password")
+    if secret:
+        username = secret.get("username", username)
+        password = secret.get("password", password)
+    return {
+        "protocol": "sftp",
+        "host": f"{workspace.name}.{workspace.namespace}.svc.cluster.local",
+        "port": 22,
+        "username": username,
+        "password": password,
+    }
+
+
+WORKSPACE_CONFIG: Dict[WorkspaceType, WorkspaceConfigEntry] = {
+    WorkspaceType.INGRESS: WorkspaceConfigEntry(
+        image="ghcr.io/spe/workspace-ingress:stable",
+        network_profile=NetworkPolicyProfile.INGRESS,
+        default_env={"SERVICE_MODE": "sftp"},
+        require_user=False,
+        volume_factory=_ingress_volume_factory,
+        network_factory=_ingress_network_factory,
+        connection_secret_factory=_ingress_connection_secret_factory,
+        connection_info_factory=_ingress_connection_info_factory,
+    ),
+    WorkspaceType.PREPROCESS: WorkspaceConfigEntry(
+        image="ghcr.io/spe/workspace-hdab-preprocess:stable",
+        network_profile=NetworkPolicyProfile.PREPROCESS,
+        volume_templates=[
+            VolumeTemplate(
+                name="raw",
+                mount_path="/raw",
+                read_only=True,
+                access_modes=["ReadOnlyMany"],
+                default_size="200Gi",
+                size_key="raw_volume_size",
+            ),
+            VolumeTemplate(
+                name="prepared",
+                mount_path="/prepared",
+                read_only=False,
+                access_modes=["ReadWriteOnce"],
+                default_size="200Gi",
+                size_key="prepared_volume_size",
+            ),
+        ],
+    ),
+    WorkspaceType.REVIEW: WorkspaceConfigEntry(
+        image="ghcr.io/spe/workspace-hdab-review:stable",
+        network_profile=NetworkPolicyProfile.REVIEW,
+        volume_templates=[
+            VolumeTemplate(
+                name="prepared",
+                mount_path="/prepared",
+                read_only=True,
+                access_modes=["ReadOnlyMany"],
+                default_size="200Gi",
+                size_key="prepared_volume_size",
+            ),
+        ],
+    ),
+    WorkspaceType.SETUP: WorkspaceConfigEntry(
+        image="ghcr.io/spe/workspace-researcher-setup:stable",
+        network_profile=NetworkPolicyProfile.SETUP,
+        default_env={"PROXY_ENABLED": "true"},
+        volume_templates=[
+            VolumeTemplate(
+                name="project",
+                mount_path="/project",
+                read_only=False,
+                access_modes=["ReadWriteMany"],
+                default_size="100Gi",
+                size_key="project_volume_size",
+            ),
+        ],
+        network_factory=_setup_network_factory,
+    ),
+    WorkspaceType.SETUP_REVIEW: WorkspaceConfigEntry(
+        image="ghcr.io/spe/workspace-setup-review:stable",
+        network_profile=NetworkPolicyProfile.SETUP_REVIEW,
+        volume_templates=[
+            VolumeTemplate(
+                name="project",
+                mount_path="/project",
+                read_only=True,
+                access_modes=["ReadOnlyMany"],
+                default_size="100Gi",
+                size_key="project_volume_size",
+            ),
+        ],
+    ),
+    WorkspaceType.ANALYSIS: WorkspaceConfigEntry(
+        image="ghcr.io/spe/workspace-analysis:stable",
+        network_profile=NetworkPolicyProfile.ANALYSIS,
+        default_env={"INTERNET_ACCESS": "disabled"},
+        volume_templates=[
+            VolumeTemplate(
+                name="prepared",
+                mount_path="/prepared_data",
+                read_only=True,
+                access_modes=["ReadOnlyMany"],
+                default_size="200Gi",
+                size_key="prepared_volume_size",
+            ),
+            VolumeTemplate(
+                name="outputs",
+                mount_path="/outputs",
+                read_only=False,
+                access_modes=["ReadWriteOnce"],
+                default_size="200Gi",
+                size_key="outputs_volume_size",
+            ),
+            VolumeTemplate(
+                name="project",
+                mount_path="/project",
+                read_only=False,
+                access_modes=["ReadWriteMany"],
+                default_size="100Gi",
+                size_key="project_volume_size",
+            ),
+        ],
+    ),
+}
+
+
 class WorkspaceOrchestrator:
     """Primary entry point for orchestrating workspace lifecycles."""
 
@@ -163,134 +417,71 @@ class WorkspaceOrchestrator:
         self._apply_and_record(event.permit_id, workspace_type, plan, action=action)
 
     def _build_ingress_plan(self, event: PermitEvent) -> WorkspacePlan:
+        return self._build_plan_from_config(event, WorkspaceType.INGRESS)
+
+    def _build_preprocess_plan(self, event: PermitEvent) -> WorkspacePlan:
+        return self._build_plan_from_config(event, WorkspaceType.PREPROCESS)
+
+    def _build_review_plan(self, event: PermitEvent) -> WorkspacePlan:
+        return self._build_plan_from_config(event, WorkspaceType.REVIEW)
+
+    def _build_setup_plan(self, event: PermitEvent) -> WorkspacePlan:
+        return self._build_plan_from_config(event, WorkspaceType.SETUP)
+
+    def _build_setup_review_plan(self, event: PermitEvent) -> WorkspacePlan:
+        return self._build_plan_from_config(event, WorkspaceType.SETUP_REVIEW)
+
+    def _build_analysis_plan(self, event: PermitEvent) -> WorkspacePlan:
+        return self._build_plan_from_config(event, WorkspaceType.ANALYSIS)
+
+    def _build_plan_from_config(
+        self, event: PermitEvent, workspace_type: WorkspaceType
+    ) -> WorkspacePlan:
         payload = event.payload or {}
+        config = WORKSPACE_CONFIG[workspace_type]
+        default_volumes = self._resolve_default_volumes(config, payload)
         workspace = self._default_workspace_spec(
             permit_id=event.permit_id,
-            workspace_type=WorkspaceType.INGRESS,
+            workspace_type=workspace_type,
             payload=payload,
-            default_image="ghcr.io/spe/workspace-ingress:stable",
-            default_volumes=self._build_ingress_volumes(payload),
-            default_env={"SERVICE_MODE": "sftp"},
-            require_user=False,
+            default_image=config.image,
+            default_volumes=default_volumes,
+            default_env=config.default_env,
+            require_user=config.require_user,
         )
-        network = NetworkConfig(
-            profile=NetworkPolicyProfile.INGRESS,
-            ingress=[CIDRRule(rule.get("cidr", "0.0.0.0/0"), rule.get("ports", [22])) for rule in payload.get("allowed_ingress", [])],
-        )
-        connection_secret = payload.get("connection_secret") or {
-            "username": payload.get("service_user", f"permit-{event.permit_id}"),
-            "password": payload.get("service_password", "generated-secret"),
-        }
-        connection_info = payload.get("connection") or {
-            "protocol": "sftp",
-            "host": f"{workspace.name}.svc.cluster.local",
-            "port": 22,
-            "username": connection_secret.get("username"),
-            "password": connection_secret.get("password"),
-        }
+        if config.network_factory:
+            network = config.network_factory(payload, config.network_profile)
+        else:
+            network = NetworkConfig(profile=config.network_profile)
+        connection_secret = payload.get("connection_secret")
+        if config.connection_secret_factory:
+            connection_secret = config.connection_secret_factory(
+                event, workspace, payload
+            )
+        connection_info = payload.get("connection")
+        if not connection_info:
+            if config.connection_info_factory:
+                connection_info = config.connection_info_factory(
+                    workspace, payload, connection_secret
+                )
+            else:
+                connection_info = self._default_connection(workspace)
         return WorkspacePlan(
-            stack_name=self._stack_name(event.permit_id, WorkspaceType.INGRESS),
+            stack_name=self._stack_name(event.permit_id, workspace_type),
             workspace_spec=workspace,
             network=network,
             connection_secret=connection_secret,
             connection_info=connection_info,
         )
 
-    def _build_preprocess_plan(self, event: PermitEvent) -> WorkspacePlan:
-        payload = event.payload or {}
-        workspace = self._default_workspace_spec(
-            permit_id=event.permit_id,
-            workspace_type=WorkspaceType.PREPROCESS,
-            payload=payload,
-            default_image="ghcr.io/spe/workspace-hdab-preprocess:stable",
-            default_volumes=self._build_preprocess_volumes(payload),
-        )
-        network = NetworkConfig(profile=NetworkPolicyProfile.PREPROCESS)
-        connection_info = payload.get("connection") or self._default_connection(workspace)
-        return WorkspacePlan(
-            stack_name=self._stack_name(event.permit_id, WorkspaceType.PREPROCESS),
-            workspace_spec=workspace,
-            network=network,
-            connection_info=connection_info,
-        )
-
-    def _build_review_plan(self, event: PermitEvent) -> WorkspacePlan:
-        payload = event.payload or {}
-        workspace = self._default_workspace_spec(
-            permit_id=event.permit_id,
-            workspace_type=WorkspaceType.REVIEW,
-            payload=payload,
-            default_image="ghcr.io/spe/workspace-hdab-review:stable",
-            default_volumes=self._build_review_volumes(payload),
-        )
-        network = NetworkConfig(profile=NetworkPolicyProfile.REVIEW)
-        connection_info = payload.get("connection") or self._default_connection(workspace)
-        return WorkspacePlan(
-            stack_name=self._stack_name(event.permit_id, WorkspaceType.REVIEW),
-            workspace_spec=workspace,
-            network=network,
-            connection_info=connection_info,
-        )
-
-    def _build_setup_plan(self, event: PermitEvent) -> WorkspacePlan:
-        payload = event.payload or {}
-        workspace = self._default_workspace_spec(
-            permit_id=event.permit_id,
-            workspace_type=WorkspaceType.SETUP,
-            payload=payload,
-            default_image="ghcr.io/spe/workspace-researcher-setup:stable",
-            default_volumes=self._build_setup_volumes(payload),
-            default_env={"PROXY_ENABLED": "true"},
-        )
-        network = NetworkConfig(
-            profile=NetworkPolicyProfile.SETUP,
-            proxy_selector=payload.get("proxy_selector")
-            or {"namespaceSelector": {"matchLabels": {"kubernetes.io/metadata.name": "infra"}}, "podSelector": {"matchLabels": {"app": "spe-proxy"}}},
-        )
-        connection_info = payload.get("connection") or self._default_connection(workspace)
-        return WorkspacePlan(
-            stack_name=self._stack_name(event.permit_id, WorkspaceType.SETUP),
-            workspace_spec=workspace,
-            network=network,
-            connection_info=connection_info,
-        )
-
-    def _build_setup_review_plan(self, event: PermitEvent) -> WorkspacePlan:
-        payload = event.payload or {}
-        workspace = self._default_workspace_spec(
-            permit_id=event.permit_id,
-            workspace_type=WorkspaceType.SETUP_REVIEW,
-            payload=payload,
-            default_image="ghcr.io/spe/workspace-setup-review:stable",
-            default_volumes=self._build_setup_review_volumes(payload),
-        )
-        network = NetworkConfig(profile=NetworkPolicyProfile.SETUP_REVIEW)
-        connection_info = payload.get("connection") or self._default_connection(workspace)
-        return WorkspacePlan(
-            stack_name=self._stack_name(event.permit_id, WorkspaceType.SETUP_REVIEW),
-            workspace_spec=workspace,
-            network=network,
-            connection_info=connection_info,
-        )
-
-    def _build_analysis_plan(self, event: PermitEvent) -> WorkspacePlan:
-        payload = event.payload or {}
-        workspace = self._default_workspace_spec(
-            permit_id=event.permit_id,
-            workspace_type=WorkspaceType.ANALYSIS,
-            payload=payload,
-            default_image="ghcr.io/spe/workspace-analysis:stable",
-            default_volumes=self._build_analysis_volumes(payload),
-            default_env={"INTERNET_ACCESS": "disabled"},
-        )
-        network = NetworkConfig(profile=NetworkPolicyProfile.ANALYSIS)
-        connection_info = payload.get("connection") or self._default_connection(workspace)
-        return WorkspacePlan(
-            stack_name=self._stack_name(event.permit_id, WorkspaceType.ANALYSIS),
-            workspace_spec=workspace,
-            network=network,
-            connection_info=connection_info,
-        )
+    def _resolve_default_volumes(
+        self, config: WorkspaceConfigEntry, payload: Dict[str, Any]
+    ) -> Iterable[VolumeSpec]:
+        if config.volume_factory:
+            return list(config.volume_factory(payload))
+        if config.volume_templates:
+            return [template.build(payload) for template in config.volume_templates]
+        return []
 
     # ------------------------------------------------------------------
     # Plan Application
@@ -453,7 +644,7 @@ class WorkspaceOrchestrator:
     # ------------------------------------------------------------------
     # Stack Helpers
     # ------------------------------------------------------------------
-    def _destroy_stack(self, permit_id: str, workspace_type: WorkspaceType) -> None:
+    def _destroy_stack(self, permit_id: str, workspace_type: WorkspaceType) -> bool:
         stack_name = self._stack_name(permit_id, workspace_type)
         LOGGER.info("Destroying workspace stack", extra={"stack": stack_name})
         stored_plan = self._state_manager.get_plan(permit_id, workspace_type.value)
@@ -470,7 +661,7 @@ class WorkspaceOrchestrator:
                     "pulumiDisabled": True,
                 },
             )
-            return
+            return True
         try:
             stack = auto.select_stack(stack_name=stack_name, project_name=self._config.pulumi.project_name)
         except auto.StackNotFoundError:
@@ -483,7 +674,7 @@ class WorkspaceOrchestrator:
                 "SUCCESS",
                 {"workspaceType": workspace_type.value, "stackName": stack_name, "message": "Stack not found"},
             )
-            return
+            return True
         try:
             stack.destroy(on_output=lambda line: LOGGER.info(line))
         except Exception as exc:
@@ -502,7 +693,7 @@ class WorkspaceOrchestrator:
                 routing_key="permit.workspace.destroy_failed",
                 extra_details={"stage": "destroy"},
             )
-            return
+            return False
         stack.workspace.remove_stack(stack_name)
         if stored_plan:
             self._state_manager.delete_plan(permit_id, workspace_type.value)
@@ -512,6 +703,7 @@ class WorkspaceOrchestrator:
             "SUCCESS",
             {"workspaceType": workspace_type.value, "stackName": stack_name},
         )
+        return True
 
     def _scale_stack(self, permit_id: str, workspace_type: WorkspaceType, replicas: int) -> bool:
         stack_name = self._stack_name(permit_id, workspace_type)
@@ -566,18 +758,67 @@ class WorkspaceOrchestrator:
         success = self._scale_stack(permit_id, WorkspaceType.ANALYSIS, replicas=0)
         if success:
             self._state_manager.set_status(permit_id, "STOPPED")
+            self._publish_audit_event(
+                permit_id,
+                "STOP_WORKSPACE",
+                "SUCCESS",
+                {"workspaceType": WorkspaceType.ANALYSIS.value},
+            )
+        else:
+            self._publish_audit_event(
+                permit_id,
+                "STOP_WORKSPACE",
+                "FAILURE",
+                {
+                    "workspaceType": WorkspaceType.ANALYSIS.value,
+                    "message": "Scaling operation failed; see prior audit events.",
+                },
+            )
 
     def _start_workspace(self, permit_id: str) -> None:
         LOGGER.info("Start requested for workspace", extra={"permit_id": permit_id})
         success = self._scale_stack(permit_id, WorkspaceType.ANALYSIS, replicas=1)
         if success:
             self._state_manager.set_status(permit_id, "RUNNING")
+            self._publish_audit_event(
+                permit_id,
+                "START_WORKSPACE",
+                "SUCCESS",
+                {"workspaceType": WorkspaceType.ANALYSIS.value},
+            )
+        else:
+            self._publish_audit_event(
+                permit_id,
+                "START_WORKSPACE",
+                "FAILURE",
+                {
+                    "workspaceType": WorkspaceType.ANALYSIS.value,
+                    "message": "Scaling operation failed; see prior audit events.",
+                },
+            )
 
     def _destroy_all(self, permit_id: str) -> None:
         LOGGER.info("Destroying all workspace resources", extra={"permit_id": permit_id})
+        all_success = True
         for workspace_type in WorkspaceType:
-            self._destroy_stack(permit_id, workspace_type)
-        self._state_manager.clear_permit(permit_id)
+            result = self._destroy_stack(permit_id, workspace_type)
+            all_success = all_success and result
+        if all_success:
+            self._state_manager.clear_permit(permit_id)
+        details = {
+            "workspaceTypes": [workspace.value for workspace in WorkspaceType],
+        }
+        if all_success:
+            outcome = "SUCCESS"
+        else:
+            outcome = "FAILURE"
+            details["message"] = "One or more workspace stacks reported failures; review individual audit events."
+        self._publish_audit_event(
+            permit_id,
+            "DESTROY_ALL_WORKSPACES",
+            outcome,
+            details,
+        )
 
     def _plan_to_dict(self, plan: WorkspacePlan) -> Dict[str, Any]:
         return {
@@ -797,118 +1038,6 @@ class WorkspaceOrchestrator:
             "username": workspace.user.username,
             "password": "managed-in-secret",
         }
-
-    def _build_ingress_volumes(self, payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
-        data_holders = payload.get("data_holders", [])
-        if not data_holders:
-            return [
-                VolumeSpec(
-                    name="uploads",
-                    storage_class="spe-ceph-rbd",
-                    size="20Gi",
-                    access_modes=["ReadWriteOnce"],
-                    read_only=False,
-                    mount_path="/uploads",
-                )
-            ]
-        volumes = []
-        for holder in data_holders:
-            volumes.append(
-                VolumeSpec(
-                    name=f"uploads-{holder.get('id', 'dh')}",
-                    storage_class=holder.get("storage_class", "spe-ceph-rbd"),
-                    size=holder.get("size", "20Gi"),
-                    access_modes=["ReadWriteOnce"],
-                    read_only=False,
-                    mount_path=f"/uploads/{holder.get('id', 'dh')}",
-                )
-            )
-        return volumes
-
-    def _build_preprocess_volumes(self, payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
-        return [
-            VolumeSpec(
-                name="raw",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("raw_volume_size", "200Gi"),
-                access_modes=["ReadOnlyMany"],
-                read_only=True,
-                mount_path="/raw",
-            ),
-            VolumeSpec(
-                name="prepared",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("prepared_volume_size", "200Gi"),
-                access_modes=["ReadWriteOnce"],
-                read_only=False,
-                mount_path="/prepared",
-            ),
-        ]
-
-    def _build_review_volumes(self, payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
-        return [
-            VolumeSpec(
-                name="prepared",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("prepared_volume_size", "200Gi"),
-                access_modes=["ReadOnlyMany"],
-                read_only=True,
-                mount_path="/prepared",
-            )
-        ]
-
-    def _build_setup_volumes(self, payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
-        return [
-            VolumeSpec(
-                name="project",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("project_volume_size", "100Gi"),
-                access_modes=["ReadWriteMany"],
-                read_only=False,
-                mount_path="/project",
-            )
-        ]
-
-    def _build_setup_review_volumes(self, payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
-        return [
-            VolumeSpec(
-                name="project",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("project_volume_size", "100Gi"),
-                access_modes=["ReadOnlyMany"],
-                read_only=True,
-                mount_path="/project",
-            )
-        ]
-
-    def _build_analysis_volumes(self, payload: Dict[str, Any]) -> Iterable[VolumeSpec]:
-        return [
-            VolumeSpec(
-                name="prepared",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("prepared_volume_size", "200Gi"),
-                access_modes=["ReadOnlyMany"],
-                read_only=True,
-                mount_path="/data",
-            ),
-            VolumeSpec(
-                name="outputs",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("outputs_volume_size", "200Gi"),
-                access_modes=["ReadWriteOnce"],
-                read_only=False,
-                mount_path="/outputs",
-            ),
-            VolumeSpec(
-                name="project",
-                storage_class="spe-ceph-rbd",
-                size=payload.get("project_volume_size", "100Gi"),
-                access_modes=["ReadWriteMany"],
-                read_only=False,
-                mount_path="/project",
-            ),
-        ]
-
 
 __all__ = [
     "WorkspaceOrchestrator",
